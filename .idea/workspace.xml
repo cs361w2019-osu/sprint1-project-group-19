@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd452380-8f11-48ec-bacc-53df9f58ece8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/cs361/battleships/models/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cs361/battleships/models/BoardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Ship.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Ship.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Square.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Square.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/cs361/battleships/models/BoardTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/cs361/battleships/models/BoardTest.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,53 +23,46 @@
     <session id="1949996644">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="4" />
+          <entry key="project.open.time.127" value="1" />
+          <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.34" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.71" value="1" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="10" />
+          <entry key="class" value="1" />
+          <entry key="java" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="10" />
+          <entry key="CLASS" value="1" />
+          <entry key="JAVA" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1321" />
+          <entry key="java" value="4422" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1321" />
+          <entry key="JAVA" value="4422" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/cs361/battleships/models/BoardTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+            <state relative-caret-position="527">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
             </state>
           </provider>
         </entry>
@@ -71,7 +70,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/AtackStatus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="34">
               <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
             </state>
           </provider>
@@ -80,8 +79,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+            <state relative-caret-position="238">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="e#519#520#0" expanded="true" />
+                <element signature="e#539#540#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,7 +92,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
+            <state relative-caret-position="442">
               <caret line="31" selection-start-line="31" selection-end-line="31" />
             </state>
           </provider>
@@ -103,12 +106,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-96">
-              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+            <state relative-caret-position="357">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#538#539#0" expanded="true" />
-                <element signature="e#560#561#0" expanded="true" />
+                <element signature="method#Ship#1;class#Ship#0" />
+                <element signature="method#setLength#0;class#Ship#0" />
+                <element signature="method#setOccupiedSquares#0;class#Ship#0" />
+                <element signature="method#setShipName#0;class#Ship#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="29" column="8" lean-forward="true" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -123,9 +140,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs361/battleships/models/BoardTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java" />
         <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java" />
-        <option value="$PROJECT_DIR$/src/test/java/cs361/battleships/models/BoardTest.java" />
       </list>
     </option>
   </component>
@@ -150,6 +167,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="Scope">
         <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
           <expand>
@@ -161,14 +180,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547949998438" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548009505487" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -184,7 +201,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.BoardTest.testValidPlacement">
+  <component name="RunManager" selected="JUnit.BoardTest">
     <configuration name="BoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="battleships" />
       <extension name="coverage">
@@ -215,6 +232,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="BoardTest.testShipOverlap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="battleships" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cs361.battleships.models.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cs361.battleships.models" />
+      <option name="MAIN_CLASS_NAME" value="cs361.battleships.models.BoardTest" />
+      <option name="METHOD_NAME" value="testShipOverlap" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="BoardTest.testValidPlacement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="battleships" />
       <extension name="coverage">
@@ -235,12 +268,14 @@
       <item itemvalue="JUnit.BoardTest.testInvalidPlacement" />
       <item itemvalue="JUnit.BoardTest.testValidPlacement" />
       <item itemvalue="JUnit.BoardTest" />
+      <item itemvalue="JUnit.BoardTest.testShipOverlap" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BoardTest.testValidPlacement" />
         <item itemvalue="JUnit.BoardTest" />
         <item itemvalue="JUnit.BoardTest.testInvalidPlacement" />
+        <item itemvalue="JUnit.BoardTest.testShipOverlap" />
+        <item itemvalue="JUnit.BoardTest.testValidPlacement" />
       </list>
     </recent_temporary>
   </component>
@@ -255,50 +290,53 @@
       <option name="presentableId" value="Default" />
       <updated>1547846926601</updated>
       <workItem from="1547846938638" duration="5548000" />
-      <workItem from="1547945250849" duration="4709000" />
+      <workItem from="1547945250849" duration="4886000" />
+      <workItem from="1547950389789" duration="1076000" />
+      <workItem from="1547954909692" duration="5121000" />
+      <workItem from="1547999279126" duration="3498000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="BoardTest_testValidPlacement - 2019.01.19 at 16h 55m 29s.xml">
-      <configuration name="BoardTest.testValidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testShipOverlap - 2019.01.19 at 20h 30m 00s.xml">
+      <configuration name="BoardTest.testShipOverlap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest_testValidPlacement - 2019.01.19 at 17h 07m 05s.xml">
-      <configuration name="BoardTest.testValidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testShipOverlap - 2019.01.19 at 20h 35m 32s.xml">
+      <configuration name="BoardTest.testShipOverlap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest_testInvalidPlacement - 2019.01.19 at 17h 12m 49s.xml">
-      <configuration name="BoardTest.testInvalidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testShipOverlap - 2019.01.19 at 20h 39m 56s.xml">
+      <configuration name="BoardTest.testShipOverlap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest_testInvalidPlacement - 2019.01.19 at 17h 36m 35s.xml">
-      <configuration name="BoardTest.testInvalidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testShipOverlap - 2019.01.19 at 20h 46m 27s.xml">
+      <configuration name="BoardTest.testShipOverlap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest_testInvalidPlacement - 2019.01.19 at 17h 37m 05s.xml">
-      <configuration name="BoardTest.testInvalidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testShipOverlap - 2019.01.19 at 20h 51m 56s.xml">
+      <configuration name="BoardTest.testShipOverlap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest_testValidPlacement - 2019.01.19 at 17h 37m 32s.xml">
-      <configuration name="BoardTest.testValidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testShipOverlap - 2019.01.19 at 20h 54m 39s.xml">
+      <configuration name="BoardTest.testShipOverlap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest_testInvalidPlacement - 2019.01.19 at 17h 41m 53s.xml">
-      <configuration name="BoardTest.testInvalidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testShipOverlap - 2019.01.19 at 20h 54m 57s.xml">
+      <configuration name="BoardTest.testShipOverlap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest - 2019.01.19 at 17h 46m 42s.xml">
+    <history-entry file="BoardTest - 2019.01.20 at 10h 11m 35s.xml">
       <configuration name="BoardTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest - 2019.01.19 at 17h 47m 47s.xml">
+    <history-entry file="BoardTest - 2019.01.20 at 10h 26m 42s.xml">
       <configuration name="BoardTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="BoardTest_testValidPlacement - 2019.01.19 at 17h 51m 44s.xml">
-      <configuration name="BoardTest.testValidPlacement" configurationId="JUnit" />
+    <history-entry file="BoardTest_testInvalidPlacement - 2019.01.20 at 10h 26m 54s.xml">
+      <configuration name="BoardTest.testInvalidPlacement" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10257000" />
+    <option name="totallyTimeSpent" value="20129000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="840" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25302014" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26308724" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -336,53 +374,66 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Result.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Game.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="221">
+          <caret line="13" column="42" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        <state relative-caret-position="238">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#519#520#0" expanded="true" />
+            <element signature="e#539#540#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Result.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/AtackStatus.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="34">
           <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/cs361/battleships/models/BoardTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        <state relative-caret-position="527">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-96">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        <state relative-caret-position="357">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#538#539#0" expanded="true" />
-            <element signature="e#560#561#0" expanded="true" />
+            <element signature="method#Ship#1;class#Ship#0" />
+            <element signature="method#setLength#0;class#Ship#0" />
+            <element signature="method#setOccupiedSquares#0;class#Ship#0" />
+            <element signature="method#setShipName#0;class#Ship#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+        <state relative-caret-position="136">
+          <caret line="29" column="8" lean-forward="true" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

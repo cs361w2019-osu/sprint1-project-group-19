@@ -21,4 +21,16 @@ public class BoardTest {
         assertTrue(board.placeShip(new Ship("MINESWEEPER"),1,'A',true));
         assertTrue(board.placeShip(new Ship("MINESWEEPER"),9,'A',false));
     }
+
+    @Test
+    public void testShipOverlap() {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("BATTLESHIP"),1,'A',true));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"),1,'A',false));
+
+        assertTrue(board.placeShip(new Ship("BATTLESHIP"),3,'B',false));
+        assertFalse(board.placeShip(new Ship("BATTLESHIP"),2,'C',true));
+    }
+
+
 }
