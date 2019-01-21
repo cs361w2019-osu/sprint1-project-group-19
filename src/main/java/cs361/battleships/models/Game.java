@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static cs361.battleships.models.AtackStatus.*;
 
 public class Game {
@@ -61,6 +63,6 @@ public class Game {
 
     private boolean randVertical() {
         // TODO implement
-        return false;
+        return (ThreadLocalRandom.current().nextInt(0,2) != 0);
     }
 }
