@@ -20,8 +20,8 @@ public class Board {
 		placedShips = new ArrayList<>();
 
 		// adds all squares to the emptySquares list
-		for (char y = 'A'; y <= 'J'; y++){
-			for (int x = 1; x <= 10; x++){ // we need an agreement on whether to use uppercase or lowercase
+		for (char y = 'A'; y <= 'J'; y++){ // column names are in uppercase
+			for (int x = 1; x <= 10; x++){
 				emptySquares.add(new Square(x, y));
 			}
 		}
