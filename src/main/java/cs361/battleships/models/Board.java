@@ -14,11 +14,19 @@ public class Board {
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-	public Board() {
-		// TODO Implement
-		missedSquares = new ArrayList<>();
+
+	public Board() { // board constructor
+		emptySquares = new ArrayList<>(); // should contain all squares on the board
+		hitSquares = new ArrayList<>(); // should be empty
+		missedSquares = new ArrayList<>(); // should also be empty
 		placedShips = new ArrayList<>();
-		hitSquares = new ArrayList<>();
+
+		// adds all squares to the emptySquares list
+		for (char y = 'a'; y <= 'j'; y++){
+			for (int x = 1; x <= 10; x++){ // we need an agreement on whether to use uppercase or lowercase
+				emptySquares.add(new Square(x, y));
+			}
+		}
 	}
 
 	/*
