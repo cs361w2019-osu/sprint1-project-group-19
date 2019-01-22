@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Board {
 
-	@JsonProperty priavte List<Square> emptySquares;
+	@JsonProperty private List<Square> emptySquares;
 	@JsonProperty private List<Ship> placedShips;
 	@JsonProperty private List<Square> missedSquares;
 	@JsonProperty private List<Square> hitSquares;
@@ -142,7 +142,7 @@ public class Board {
 
 	public void setAttacks(List<Result> attacks) {
 		//TODO implement
-		if (attacks.size > 0) {
+		if (attacks.size() > 0) {
 			attackResults.clear();
 			attackResults.addAll(attacks);
 		}
