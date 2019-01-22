@@ -7,9 +7,11 @@ import java.util.List;
 
 public class Board {
 
+	@JsonProperty priavte List<Square> emptySquares;
 	@JsonProperty private List<Ship> placedShips;
 	@JsonProperty private List<Square> missedSquares;
 	@JsonProperty private List<Square> hitSquares;
+	@JsonProperty private List<Result> attackResults;
   
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -20,6 +22,7 @@ public class Board {
 		hitSquares = new ArrayList<>(); // should be empty
 		missedSquares = new ArrayList<>(); // should also be empty
 		placedShips = new ArrayList<>();
+		attackResults = new ArrayList<>();
 
 		// adds all squares to the emptySquares list
 		for (char y = 'a'; y <= 'j'; y++){
@@ -81,6 +84,7 @@ public class Board {
 		//TODO Implement
 		Result result = new Result();
 		Square newSquare = new Square(x, y);
+		result.setLocation(newSquare);
 		if (x < 1 || x > 10 || y < 'A' || y > 'J') {
 			result.setResult(AtackStatus.INVALID);
 		} else {
@@ -91,6 +95,7 @@ public class Board {
 					List<Square> existingSquares = new ArrayList<>(existingShip.getOccupiedSquares());
 					if (existingSquares.contains(newSquare)) {
 						result.setResult(AtackStatus.HIT);
+						result.setShip(existingShip);
 						existingSquares.remove(newSquare);
 						existingShip.setOccupiedSquares(existingSquares);
 						if (existingSquares.isEmpty()) {
@@ -101,6 +106,9 @@ public class Board {
 							}
 						}
 						hitSquares.add(newSquare);
+						List<Result> oldAtk = new ArrayList<>(this.getAttacks());
+						oldAtk.add(result);
+						this.setAttacks(oldAtk);
 						return result;
 					}
 				}
@@ -108,6 +116,9 @@ public class Board {
 				missedSquares.add(newSquare);
 			}
 		}
+		List<Result> oldAtk = new ArrayList<>(this.getAttacks());
+		oldAtk.add(result);
+		this.setAttacks(oldAtk);
 		return result;
 	}
 
@@ -126,10 +137,14 @@ public class Board {
 
 	public List<Result> getAttacks() {
 		//TODO implement
-		return null;
+		return this.attackResults;
 	}
 
 	public void setAttacks(List<Result> attacks) {
 		//TODO implement
+		if (attacks.size > 0) {
+			attackResults.clear();
+			attackResults.addAll(attacks);
+		}
 	}
 }
