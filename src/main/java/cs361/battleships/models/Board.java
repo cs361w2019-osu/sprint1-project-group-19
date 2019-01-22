@@ -1,15 +1,23 @@
 package cs361.battleships.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
 
+	@JsonProperty private List<Ship> placedShips;
+	@JsonProperty private List<Square> missedSquares;
+	@JsonProperty private List<Square> hitSquares;
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
 		// TODO Implement
+		missedSquares = new ArrayList<>();
+		placedShips = new ArrayList<>();
+		hitSquares = new ArrayList<>();
 	}
 
 	/*
@@ -17,7 +25,30 @@ public class Board {
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		// TODO Implement
-		return false;
+		int len = ship.getLength();
+
+		for (int i = 0; i < len; i++) {
+			int a=x;
+			char b=y;
+
+			if (isVertical) {
+				a += i;
+			} else {
+				b += i;
+			}
+
+			Square newSquare = new Square(a,b);
+
+			List<Square> existingSquares = new ArrayList<>(ship.getOccupiedSquares());
+			existingSquares.add(newSquare);
+			ship.setOccupiedSquares(existingSquares);
+		}
+
+		List<Ship> newShips = new ArrayList<>(this.getShips());
+		newShips.add(ship);
+		this.setShips(newShips);
+
+		return true;
 	}
 
 	/*
@@ -25,16 +56,49 @@ public class Board {
 	 */
 	public Result attack(int x, char y) {
 		//TODO Implement
-		return null;
+		Result result = new Result();
+		Square newSquare = new Square(x, y);
+		if (x < 1 || x > 10 || y < 'A' || y > 'J') {
+			result.setResult(AtackStatus.INVALID);
+		} else {
+			if (missedSquares.contains(newSquare) || hitSquares.contains(newSquare)) {
+				result.setResult(AtackStatus.INVALID);
+			} else {
+				for (Ship existingShip:this.placedShips) {
+					List<Square> existingSquares = new ArrayList<>(existingShip.getOccupiedSquares());
+					if (existingSquares.contains(newSquare)) {
+						result.setResult(AtackStatus.HIT);
+						existingSquares.remove(newSquare);
+						existingShip.setOccupiedSquares(existingSquares);
+						if (existingSquares.isEmpty()) {
+							result.setResult(AtackStatus.SUNK);
+							placedShips.remove(existingShip);
+							if (placedShips.isEmpty()) {
+								result.setResult(AtackStatus.SURRENDER);
+							}
+						}
+						hitSquares.add(newSquare);
+						return result;
+					}
+				}
+				result.setResult(AtackStatus.MISS);
+				missedSquares.add(newSquare);
+			}
+		}
+		return result;
 	}
 
 	public List<Ship> getShips() {
 		//TODO implement
-		return null;
+		return this.placedShips;
 	}
 
 	public void setShips(List<Ship> ships) {
 		//TODO implement
+		if (ships.size() > 0) {
+			placedShips.clear();
+			placedShips.addAll(ships);
+		}
 	}
 
 	public List<Result> getAttacks() {

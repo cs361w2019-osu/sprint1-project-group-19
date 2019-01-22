@@ -14,6 +14,17 @@ public class Square {
 		this.column = column;
 	}
 
+	public boolean equals (Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof Square)) {
+			return false;
+		}
+		Square otherSquare = (Square)o;
+		return (otherSquare.getRow()==this.getRow() && otherSquare.getColumn()==this.getColumn());
+	}
+
 	public char getColumn() {
 		return column;
 	}
