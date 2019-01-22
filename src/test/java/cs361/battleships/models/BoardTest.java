@@ -11,8 +11,27 @@ public class BoardTest {
     public void testInvalidPlacement() {
         Board board = new Board();
         assertFalse(board.placeShip(new Ship("MINESWEEPER"), 11, 'C', true));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"),10,'A',true));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"),1,'J',false));
+    }
+  
+    @Test
+    public void testValidPlacement() {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"),1,'A',true));
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"),9,'A',false));
     }
 
+    @Test
+    public void testShipOverlap() {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("BATTLESHIP"),1,'A',true));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"),1,'A',false));
+
+        assertTrue(board.placeShip(new Ship("BATTLESHIP"),3,'B',false));
+        assertFalse(board.placeShip(new Ship("BATTLESHIP"),2,'C',true));
+    }
+  
     @Test
     public void testAttackLocation() {
         Board board = new Board();

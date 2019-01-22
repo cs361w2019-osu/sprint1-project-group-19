@@ -50,7 +50,15 @@ public class Ship {
 	}
 
 	public List<Square> getOccupiedSquares() {
-		//TODO implement
 		return occupiedSquares;
+	}
+
+	public void setShipName(String kind) {
+		shipName = kind;
+		setLength(kind);
+	}
+
+	public String getShipName() {
+		return shipName;
 	}
 }

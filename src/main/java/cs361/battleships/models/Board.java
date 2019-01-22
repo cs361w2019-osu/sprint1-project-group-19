@@ -10,6 +10,7 @@ public class Board {
 	@JsonProperty private List<Ship> placedShips;
 	@JsonProperty private List<Square> missedSquares;
 	@JsonProperty private List<Square> hitSquares;
+  
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -26,10 +27,14 @@ public class Board {
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		// TODO Implement
 		int len = ship.getLength();
+    
+		if (len == 0) {
+			return false;
+		}
 
 		for (int i = 0; i < len; i++) {
-			int a=x;
-			char b=y;
+			int a = x;
+			char b = y;
 
 			if (isVertical) {
 				a += i;
@@ -39,9 +44,19 @@ public class Board {
 
 			Square newSquare = new Square(a,b);
 
-			List<Square> existingSquares = new ArrayList<>(ship.getOccupiedSquares());
-			existingSquares.add(newSquare);
-			ship.setOccupiedSquares(existingSquares);
+			if ( a > 10 || a < 1 || b > 'J' || b < 'A') {
+				return false;
+			} else {
+				for (Ship existingShip:this.placedShips) {
+					List<Square> shipSquares = new ArrayList<>(existingShip.getOccupiedSquares());
+					if (shipSquares.contains(newSquare)) {
+						return false;
+					}
+				}
+				List<Square> existingSquares = new ArrayList<>(ship.getOccupiedSquares());
+				existingSquares.add(newSquare);
+				ship.setOccupiedSquares(existingSquares);
+			}
 		}
 
 		List<Ship> newShips = new ArrayList<>(this.getShips());
