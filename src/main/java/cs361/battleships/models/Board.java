@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class Board {
 
+
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
 
@@ -17,6 +18,7 @@ public class Board {
 	public Board() {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
+
 	}
 
 	/*
@@ -24,6 +26,7 @@ public class Board {
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		if (ships.size() >= 3) {
+
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
@@ -48,6 +51,7 @@ public class Board {
 		Result attackResult = attack(new Square(x, y));
 		attacks.add(attackResult);
 		return attackResult;
+
 	}
 
 	private Result attack(Square s) {
@@ -71,7 +75,9 @@ public class Board {
 		return attackResult;
 	}
 
+8
 	List<Ship> getShips() {
 		return ships;
+
 	}
 }
