@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import static cs361.battleships.models.AtackStatus.*;
 
 public class Game {
@@ -47,30 +45,21 @@ public class Game {
             // AI does random attacks, so it might attack the same spot twice
             // let it try until it gets it right
             opponentAttackResult = playersBoard.attack(randRow(), randCol());
-        } while(opponentAttackResult.getResult() != INVALID);
+        } while(opponentAttackResult.getResult() == INVALID);
 
         return true;
     }
 
     private char randCol() {
-        // TODO implement
-        Random rnd = new Random();
-        char c = (char) (rnd.nextInt(26)+'A');
-        return c;
+        int random = new Random().nextInt(10);
+        return (char) ('A' + random);
     }
 
     private int randRow() {
-        // TODO implement
-        int max = 10;
-        int min = 1;
-        Random rand = new Random();
-        int randNum;
-        randNum = rand.nextInt(max - min + 1) + min;
-        return randNum;
+        return  new Random().nextInt(10) + 1;
     }
 
     private boolean randVertical() {
-        // TODO implement
-        return (ThreadLocalRandom.current().nextInt(0,2) != 0);
+        return new Random().nextBoolean();
     }
 }

@@ -4,76 +4,43 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
 
-	@JsonProperty private List<Square> emptySquares;
-	@JsonProperty private List<Ship> placedShips;
-	@JsonProperty private List<Square> missedSquares;
-	@JsonProperty private List<Square> hitSquares;
-	@JsonProperty private List<Result> attackResults;
-  
+
+	@JsonProperty private List<Ship> ships;
+	@JsonProperty private List<Result> attacks;
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
+	public Board() {
+		ships = new ArrayList<>();
+		attacks = new ArrayList<>();
 
-	public Board() { // board constructor
-		emptySquares = new ArrayList<>(); // should contain all squares on the board
-		hitSquares = new ArrayList<>(); // should be empty
-		missedSquares = new ArrayList<>(); // should also be empty
-		placedShips = new ArrayList<>();
-		attackResults = new ArrayList<>();
-
-		// adds all squares to the emptySquares list
-		for (char y = 'A'; y <= 'J'; y++){ // column names are in uppercase
-			for (int x = 1; x <= 10; x++){
-				emptySquares.add(new Square(x, y));
-			}
-		}
 	}
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		// TODO Implement
-		int len = ship.getLength();
-    
-		if (len == 0) {
+		if (ships.size() >= 3) {
+
 			return false;
 		}
-
-		for (int i = 0; i < len; i++) {
-			int a = x;
-			char b = y;
-
-			if (isVertical) {
-				a += i;
-			} else {
-				b += i;
-			}
-
-			Square newSquare = new Square(a,b);
-
-			if ( a > 10 || a < 1 || b > 'J' || b < 'A') {
-				return false;
-			} else {
-				for (Ship existingShip:this.placedShips) {
-					List<Square> shipSquares = new ArrayList<>(existingShip.getOccupiedSquares());
-					if (shipSquares.contains(newSquare)) {
-						return false;
-					}
-				}
-				List<Square> existingSquares = new ArrayList<>(ship.getOccupiedSquares());
-				existingSquares.add(newSquare);
-				ship.setOccupiedSquares(existingSquares);
-			}
+		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
+			return false;
 		}
-
-		List<Ship> newShips = new ArrayList<>(this.getShips());
-		newShips.add(ship);
-		this.setShips(newShips);
-
+		final var placedShip = new Ship(ship.getKind());
+		placedShip.place(y, x, isVertical);
+		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
+			return false;
+		}
+		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
+			return false;
+		}
+		ships.add(placedShip);
 		return true;
 	}
 
@@ -81,70 +48,36 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
-		//TODO Implement
-		Result result = new Result();
-		Square newSquare = new Square(x, y);
-		result.setLocation(newSquare);
-		if (x < 1 || x > 10 || y < 'A' || y > 'J') {
-			result.setResult(AtackStatus.INVALID);
-		} else {
-			if (missedSquares.contains(newSquare) || hitSquares.contains(newSquare)) {
-				result.setResult(AtackStatus.INVALID);
-			} else {
-				for (Ship existingShip:this.placedShips) {
-					List<Square> existingSquares = new ArrayList<>(existingShip.getOccupiedSquares());
-					if (existingSquares.contains(newSquare)) {
-						result.setResult(AtackStatus.HIT);
-						result.setShip(existingShip);
-						existingSquares.remove(newSquare);
-						existingShip.setOccupiedSquares(existingSquares);
-						if (existingSquares.isEmpty()) {
-							result.setResult(AtackStatus.SUNK);
-							placedShips.remove(existingShip);
-							if (placedShips.isEmpty()) {
-								result.setResult(AtackStatus.SURRENDER);
-							}
-						}
-						hitSquares.add(newSquare);
-						List<Result> oldAtk = new ArrayList<>(this.getAttacks());
-						oldAtk.add(result);
-						this.setAttacks(oldAtk);
-						return result;
-					}
-				}
-				result.setResult(AtackStatus.MISS);
-				missedSquares.add(newSquare);
+		Result attackResult = attack(new Square(x, y));
+		attacks.add(attackResult);
+		return attackResult;
+
+	}
+
+	private Result attack(Square s) {
+		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s))) {
+			var attackResult = new Result(s);
+			attackResult.setResult(AtackStatus.INVALID);
+			return attackResult;
+		}
+		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
+		if (shipsAtLocation.size() == 0) {
+			var attackResult = new Result(s);
+			return attackResult;
+		}
+		var hitShip = shipsAtLocation.get(0);
+		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
+		if (attackResult.getResult() == AtackStatus.SUNK) {
+			if (ships.stream().allMatch(ship -> ship.isSunk())) {
+				attackResult.setResult(AtackStatus.SURRENDER);
 			}
 		}
-		List<Result> oldAtk = new ArrayList<>(this.getAttacks());
-		oldAtk.add(result);
-		this.setAttacks(oldAtk);
-		return result;
+		return attackResult;
 	}
 
-	public List<Ship> getShips() {
-		//TODO implement
-		return this.placedShips;
-	}
+8
+	List<Ship> getShips() {
+		return ships;
 
-	public void setShips(List<Ship> ships) {
-		//TODO implement
-		if (ships.size() > 0) {
-			placedShips.clear();
-			placedShips.addAll(ships);
-		}
-	}
-
-	public List<Result> getAttacks() {
-		//TODO implement
-		return this.attackResults;
-	}
-
-	public void setAttacks(List<Result> attacks) {
-		//TODO implement
-		if (attacks.size() > 0) {
-			attackResults.clear();
-			attackResults.addAll(attacks);
-		}
 	}
 }
