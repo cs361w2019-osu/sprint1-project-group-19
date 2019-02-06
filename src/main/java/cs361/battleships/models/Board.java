@@ -75,7 +75,6 @@ public class Board {
 		return attackResult;
 	}
 
-8
 	List<Ship> getShips() {
 		return ships;
 
