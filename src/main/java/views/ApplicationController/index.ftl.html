@@ -4,18 +4,17 @@
 
 <h1>The Battleship game</h1>
 
-<table id="opponent" class="battleGrid">
+<table id="opponent" class="battleGrid" class="boardElement">
 </table>
 
-<table id="player" class="battleGrid">
-</table>
 
-<ul>
+<ul class="boardElement">
     <li><button id="place_minesweeper">Place Minesweeper</button></li>
     <li><button id="place_destroyer">Place Destroyer</button></li>
     <li><button id="place_battleship">Place Battleship</button></li>
     <li><input type="checkbox" id="is_vertical">Vertical</input></li>
 </ul>
+
 
 <table id="attackList" class="attackTable">
     <caption class ="tableCaption">Recent Attacks</caption>
@@ -29,6 +28,8 @@
     </tr>
 </table>
 
+<table id="player" class="battleGrid" class="boardElement">
+</table>
 
 
 
