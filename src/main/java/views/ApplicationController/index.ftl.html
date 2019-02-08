@@ -4,6 +4,14 @@
 
 <h1>The Battleship game</h1>
 
+<div id="status">
+    <h3>Setup phase</h3>
+    Click on a ship button to select a ship for placement,<br>
+    Click on a square on your board to place the selected ship,<br>
+    Check the <i>Vertical</i> box to place a ship in vertical direction,<br>
+    The attack phase will start once all 3 ships are placed.
+</div>
+
 <div class="div-inline">
 The opponent's board
 <table id="opponent" class="battleGrid" class="boardElement">
@@ -16,7 +24,7 @@ The opponent's board
         <button id="place_minesweeper">Place Minesweeper</button>
         <button id="place_destroyer">Place Destroyer</button>
         <button id="place_battleship">Place Battleship</button>
-        <input type="checkbox" id="is_vertical">Vertical</input>
+        <input type="checkbox" id="is_vertical"><span id="vertical_caption">Vertical</span>
     </div>
 <table id="player" class="battleGrid" class="boardElement">
 </table>

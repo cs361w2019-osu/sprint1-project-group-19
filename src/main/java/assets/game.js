@@ -72,6 +72,7 @@ function cellClick() {
             placedShips++;
             if (placedShips == 3) {
                 isSetup = false;
+                hideShipButtons();
                 registerCellListener((e) => {});
             }
         });
@@ -90,7 +91,13 @@ function sendXhr(method, url, data, handler) {
             alert("Cannot complete the action");
             return;
         }
-        handler(JSON.parse(req.responseText));
+        response = JSON.parse(req.responseText);
+        if (response.status != ""){
+            alert(response.status);
+            return;
+        }
+        handler(response);
+        //handler(JSON.parse(req.responseText));
     });
     req.open(method, url);
     req.setRequestHeader("Content-Type", "application/json");
@@ -143,3 +150,13 @@ function initGame() {
         game = data;
     });
 };
+
+function hideShipButtons(){
+    document.getElementById("place_minesweeper").style.display = "none";
+    document.getElementById("place_destroyer").style.display = "none";
+    document.getElementById("place_battleship").style.display = "none";
+    document.getElementById("is_vertical").style.display = "none";
+    document.getElementById("vertical_caption").style.display = "none";
+    document.getElementById("vertical_caption").style.display = "none";
+    document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it."
+}
