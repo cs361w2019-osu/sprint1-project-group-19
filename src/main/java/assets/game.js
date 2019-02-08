@@ -72,7 +72,7 @@ function cellClick() {
             placedShips++;
             if (placedShips == 3) {
                 isSetup = false;
-                hideShipButtons();
+                attackPhase();
                 registerCellListener((e) => {});
             }
         });
@@ -151,7 +151,7 @@ function initGame() {
     });
 };
 
-function hideShipButtons(){
+function attackPhase(){
     document.getElementById("place_minesweeper").style.display = "none";
     document.getElementById("place_destroyer").style.display = "none";
     document.getElementById("place_battleship").style.display = "none";
