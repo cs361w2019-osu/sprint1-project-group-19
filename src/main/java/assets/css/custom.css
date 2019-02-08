@@ -43,3 +43,9 @@ td:hover {
 .boardElement {
     display: flex;
 }
+
+.div-inline{
+	display: inline-block;
+	/*margin-right: 20px;
+	vertical-align: top;*/
+}

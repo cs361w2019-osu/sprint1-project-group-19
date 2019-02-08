@@ -4,20 +4,23 @@
 
 <h1>The Battleship game</h1>
 
+<div class="div-inline">
+The opponent's board
 <table id="opponent" class="battleGrid" class="boardElement">
 </table>
+</div>
 
-
-<ul class="boardElement">
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-</ul>
-
+<div class="div-inline">
+    Your board
+    <div class="boardElement">
+        <button id="place_minesweeper">Place Minesweeper</button>
+        <button id="place_destroyer">Place Destroyer</button>
+        <button id="place_battleship">Place Battleship</button>
+        <input type="checkbox" id="is_vertical">Vertical</input>
+    </div>
 <table id="player" class="battleGrid" class="boardElement">
 </table>
-
+</div>
 
 
 <script type="text/javascript" src="/assets/game.js"></script>
