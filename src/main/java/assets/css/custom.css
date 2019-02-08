@@ -43,3 +43,7 @@ td:hover {
 .boardElement {
     display: inline-block;
 }
+
+li.shipButton { 
+    display: block;
+}
