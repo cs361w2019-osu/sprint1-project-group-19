@@ -40,6 +40,26 @@ td:hover {
     background-color: blue;
 }
 
+.attackTable {
+    border: 1px solid black;
+    text-align: center;
+    width: 100%;
+
+}
+.tableCaption {
+    border: 1px solid black;
+}
+
+.attackTable td {
+     border: 1px solid black;
+     height: 30px;
+     width: 30px;
+}
+
 .boardElement {
-    display: flex;
+    display: inline-block;
+}
+
+li.shipButton { 
+    display: block;
 }
