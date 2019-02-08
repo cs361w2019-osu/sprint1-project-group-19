@@ -41,5 +41,5 @@ td:hover {
 }
 
 .boardElement {
-    display: flex;
+    display: inline-block;
 }
