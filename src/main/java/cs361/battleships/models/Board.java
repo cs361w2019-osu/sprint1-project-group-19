@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
 
