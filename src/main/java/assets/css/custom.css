@@ -57,6 +57,9 @@ td:hover {
 }
 
 .boardElement {
-    display: flex;
+    display: inline-block;
 }
 
+li.shipButton { 
+    display: block;
+}
