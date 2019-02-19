@@ -12,14 +12,17 @@ public class Game {
 
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
+    @JsonProperty private String status = "";
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
     public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
         boolean successful = playersBoard.placeShip(ship, x, y, isVertical);
-        if (!successful)
+        if (!successful) {
+            status = "The entire ship must be on the board and ships cannot overlap with each other.";
             return false;
+        }
 
         boolean opponentPlacedSuccessfully;
         do {
@@ -28,6 +31,7 @@ public class Game {
             opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
         } while (!opponentPlacedSuccessfully);
 
+        status = "";
         return true;
     }
 
@@ -37,6 +41,7 @@ public class Game {
     public boolean attack(int x, char  y) {
         Result playerAttack = opponentsBoard.attack(x, y);
         if (playerAttack.getResult() == INVALID) {
+            status = "You have already attacked that square.";
             return false;
         }
 
@@ -47,6 +52,7 @@ public class Game {
             opponentAttackResult = playersBoard.attack(randRow(), randCol());
         } while(opponentAttackResult.getResult() == INVALID);
 
+        status = "";
         return true;
     }
 

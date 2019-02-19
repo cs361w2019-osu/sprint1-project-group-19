@@ -63,3 +63,7 @@ td:hover {
 li.shipButton { 
     display: block;
 }
+
+.div-inline{
+	display: inline-block;
+}
