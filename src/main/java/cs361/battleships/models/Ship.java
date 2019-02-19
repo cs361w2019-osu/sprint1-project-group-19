@@ -15,6 +15,7 @@ public class Ship {
 	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	@JsonProperty private int captainsQuarters, numHits;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -26,12 +27,18 @@ public class Ship {
 		switch(kind) {
 			case "MINESWEEPER":
 				size = 2;
+				captainsQuarters = 0;
+				numHits = 1;
 				break;
 			case "DESTROYER":
 				size = 3;
+				captainsQuarters = 1;
+				numHits = 2;
 				break;
 			case "BATTLESHIP":
 				size = 4;
+				captainsQuarters = 2;
+				numHits = 2;
 				break;
 		}
 	}
