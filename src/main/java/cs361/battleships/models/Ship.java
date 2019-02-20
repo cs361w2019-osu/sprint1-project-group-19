@@ -49,9 +49,17 @@ public class Ship {
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
-				occupiedSquares.add(new Square(row+i, col));
+				var newSquare = new Square(row+i, col)
+				occupiedSquares.add(newSquare);
+				if(i == size-2) {
+					newSquare.setIsCapQuarters(true);
+				}
 			} else {
-				occupiedSquares.add(new Square(row, (char) (col + i)));
+				var newSquare = new Square(row, (char) (col + i))
+				occupiedSquares.add(newSquare);
+				if(i == size-2) {
+					newSquare.setIsCapQuarters(true);
+				}
 			}
 		}
 	}
@@ -86,7 +94,7 @@ public class Ship {
 		attackedSquare.hit();
 		var result = new Result(attackedLocation);
 		result.setShip(this);
-		if(getNumHits() > 0) {
+		if(getNumHits() > 0 && result.getLocation().getIsCapQuarters()) {
 			result.setResult(AtackStatus.MISS);
 		}
 		if (isSunk()) {
