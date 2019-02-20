@@ -15,7 +15,7 @@ public class Ship {
 	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
-	@JsonProperty private int captainsQuarters, numHits;
+	@JsonProperty private int numHits;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -43,8 +43,6 @@ public class Ship {
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
 	}
-
-	public int getCaptainsQuarters() { return captainsQuarters; }
 
 	public int getNumHits() { return numHits; }
 
