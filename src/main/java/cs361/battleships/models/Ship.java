@@ -27,17 +27,14 @@ public class Ship {
 		switch(kind) {
 			case "MINESWEEPER":
 				size = 2;
-				captainsQuarters = 0;
 				numHits = 1;
 				break;
 			case "DESTROYER":
 				size = 3;
-				captainsQuarters = 1;
 				numHits = 2;
 				break;
 			case "BATTLESHIP":
 				size = 4;
-				captainsQuarters = 2;
 				numHits = 2;
 				break;
 		}
@@ -46,6 +43,10 @@ public class Ship {
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
 	}
+
+	public int getCaptainsQuarters() { return captainsQuarters; }
+
+	public int getNumHits() { return numHits; }
 
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
@@ -87,6 +88,9 @@ public class Ship {
 		attackedSquare.hit();
 		var result = new Result(attackedLocation);
 		result.setShip(this);
+		if(getNumHits() > 0) {
+			result.setResult(AtackStatus.MISS);
+		}
 		if (isSunk()) {
 			result.setResult(AtackStatus.SUNK);
 		} else {
@@ -97,7 +101,7 @@ public class Ship {
 
 	@JsonIgnore
 	public boolean isSunk() {
-		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
+		return ((getNumHits() == 0) || getOccupiedSquares().stream().allMatch(s -> s.isHit()));
 	}
 
 	@Override
