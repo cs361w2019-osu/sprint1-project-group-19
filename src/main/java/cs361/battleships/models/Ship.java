@@ -49,13 +49,13 @@ public class Ship {
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
-				var newSquare = new Square(row+i, col)
+				var newSquare = new Square(row+i, col);
 				occupiedSquares.add(newSquare);
 				if(i == size-2) {
 					newSquare.setIsCapQuarters(true);
 				}
 			} else {
-				var newSquare = new Square(row, (char) (col + i))
+				var newSquare = new Square(row, (char) (col + i));
 				occupiedSquares.add(newSquare);
 				if(i == size-2) {
 					newSquare.setIsCapQuarters(true);
