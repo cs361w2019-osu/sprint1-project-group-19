@@ -67,3 +67,7 @@ li.shipButton {
 .div-inline{
 	display: inline-block;
 }
+
+.sonar-pulse{
+    display:none;
+}

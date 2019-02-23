@@ -13,7 +13,6 @@ public class Game {
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
     @JsonProperty private String status = "";
-
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -67,5 +66,11 @@ public class Game {
 
     private boolean randVertical() {
         return new Random().nextBoolean();
+    }
+
+    private void sonarPulse(){
+        if ((opponentsBoard.numSunken() >= 1) && (playersBoard.getSonarPulses() == -1)){
+            playersBoard.setSonarPulses(2);
+        }
     }
 }

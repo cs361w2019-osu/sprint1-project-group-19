@@ -10,6 +10,7 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private int sonarPulses; // -1 means not yet available, 0-2 means the number of sonar pulses left
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -17,6 +18,7 @@ public class Board {
 	public Board() {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
+		sonarPulses = -1;
 
 	}
 
@@ -50,7 +52,37 @@ public class Board {
 		Result attackResult = attack(new Square(x, y));
 		attacks.add(attackResult);
 		return attackResult;
+	}
 
+	/*
+	number of ships sunken ON THE BOARD, NOT BY THE PLAYER
+	which means that # of ships you sunk = # of sunken ships on the enemy board
+	 */
+	public int numSunken(){
+		int num = 0;
+		for (int x = 0; x < ships.size(); x++){
+			if (ships.get(x).isSunk()){
+				num++;
+			}
+		}
+		return num;
+	}
+
+	public int getSonarPulses(){
+		return sonarPulses;
+	}
+
+	public void setSonarPulses(int num){
+	    sonarPulses = num;
+    }
+
+	public boolean useSonarPulse(){
+		if (sonarPulses > 0){
+			sonarPulses--;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private Result attack(Square s) {

@@ -157,6 +157,8 @@ function attackPhase(){
     document.getElementById("place_battleship").style.display = "none";
     document.getElementById("is_vertical").style.display = "none";
     document.getElementById("vertical_caption").style.display = "none";
-    document.getElementById("vertical_caption").style.display = "none";
-    document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs."
+    document.getElementById("setup_buttons").style.display = "none";
+    document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs.<span class=\"sonar-pulse\"><br>Use sonar pulse on a square to reveal nearby squares.</span>"
 }
+
+// TODO: if sonarPulses > 1 then show sonar pulse button
