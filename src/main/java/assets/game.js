@@ -188,11 +188,13 @@ function initGame() {
 };
 
 function attackPhase(){
-    document.getElementById("place_minesweeper").style.display = "none";
-    document.getElementById("place_destroyer").style.display = "none";
-    document.getElementById("place_battleship").style.display = "none";
-    document.getElementById("is_vertical").style.display = "none";
-    document.getElementById("vertical_caption").style.display = "none";
-    //document.getElementsByClassName("setup_buttons").style.display = "none";
-    document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs.<span class=\"sonar-pulse\"><br>Use sonar pulse on a square to reveal nearby squares.</span>"
+
+    //document.getElementById("place_minesweeper").style.display = "none";
+    //document.getElementById("place_destroyer").style.display = "none";
+    //document.getElementById("place_battleship").style.display = "none";
+    //document.getElementById("is_vertical").style.display = "none";
+   // document.getElementById("vertical_caption").style.display = "none";
+   // document.getElementById("vertical_caption").style.display = "none";
+    document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs."
 }
+
