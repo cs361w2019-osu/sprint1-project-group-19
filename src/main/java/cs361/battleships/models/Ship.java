@@ -15,6 +15,7 @@ public class Ship {
 	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	@JsonProperty private int numHits;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -26,12 +27,15 @@ public class Ship {
 		switch(kind) {
 			case "MINESWEEPER":
 				size = 2;
+				numHits = 1;
 				break;
 			case "DESTROYER":
 				size = 3;
+				numHits = 2;
 				break;
 			case "BATTLESHIP":
 				size = 4;
+				numHits = 2;
 				break;
 		}
 	}
@@ -40,12 +44,23 @@ public class Ship {
 		return occupiedSquares;
 	}
 
+	public int getNumHits() { return numHits; }
+	public void setNumHits(int numHits) { this.numHits = numHits; }
+
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
-				occupiedSquares.add(new Square(row+i, col));
+				var newSquare = new Square(row+i, col);
+				if(i == size-2) {
+					newSquare.setIsCapQuarters(true);
+				}
+				occupiedSquares.add(newSquare);
 			} else {
-				occupiedSquares.add(new Square(row, (char) (col + i)));
+				var newSquare = new Square(row, (char) (col + i));
+				if(i == size-2) {
+					newSquare.setIsCapQuarters(true);
+				}
+				occupiedSquares.add(newSquare);
 			}
 		}
 	}
@@ -80,6 +95,10 @@ public class Ship {
 		attackedSquare.hit();
 		var result = new Result(attackedLocation);
 		result.setShip(this);
+		if(getNumHits() > 0 && result.getLocation().getIsCapQuarters()) {
+			result.setResult(AtackStatus.MISS);
+			setNumHits(getNumHits()-1);
+		}
 		if (isSunk()) {
 			result.setResult(AtackStatus.SUNK);
 		} else {
@@ -90,7 +109,7 @@ public class Ship {
 
 	@JsonIgnore
 	public boolean isSunk() {
-		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
+		return ((getNumHits() == 0) || getOccupiedSquares().stream().allMatch(s -> s.isHit()));
 	}
 
 	@Override
