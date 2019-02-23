@@ -34,7 +34,13 @@ public class ApplicationController {
 
     public Result attack(Context context, AttackGameAction g) {
         Game game = g.getGame();
-        boolean result = game.attack(g.getActionRow(), g.getActionColumn());
+        boolean result;
+        if (g.getAttackType().equals("Sonar")){
+            result = game.useSonarPulse(g.getActionRow(), g.getActionColumn());
+        } else {
+            result = game.attack(g.getActionRow(), g.getActionColumn());
+        }
+
         /*
         if (result) {
             return Results.json().render(game);
