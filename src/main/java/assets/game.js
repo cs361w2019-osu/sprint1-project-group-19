@@ -3,6 +3,7 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
+var attackType; // "" = regular attacks, "Sonar" = sonar pulse
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -24,7 +25,8 @@ function markHits(board, elementId, surrenderText) {
         else if (attack.result === "HIT")
             className = "hit";
         else if (attack.result === "SUNK")
-            className = "hit"
+            //className = "sink" // this results in only 1 square marked as sunk (other parts of the ship are still marked as hit)
+            className = "hit";
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
@@ -45,6 +47,27 @@ function redrawGrid() {
     }));
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
+
+    var num_sonar_pulses = game.playersBoard.sonarPulses;
+    if (num_sonar_pulses <= 0){ // 0/1/2 = number of sonar pulses left, -1 = sonar pulse not yet available
+        document.getElementById("sonar_pulse_button").style.display = "none";
+        document.getElementById("regular_wpn_button").style.display = "none";
+        attackType = "";
+    } else if (num_sonar_pulses > 0){
+    /*
+        if (attackType == "Sonar"){
+            document.getElementById("sonar_pulse_button").style.display = "none";
+            document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
+        } else {
+            document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
+            document.getElementById("regular_wpn_button").style.display = "none";
+        }
+        */
+        document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
+        document.getElementById("regular_wpn_button").style.display = "none";
+        document.getElementById("sonar_pulse_button").innerHTML = "Use sonar pulse (" + num_sonar_pulses + " left)";
+        attackType = "";
+    }
 }
 
 var oldListener;
@@ -77,7 +100,7 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, type: attackType}, function(data) {
             game = data;
             redrawGrid();
         })
@@ -134,6 +157,7 @@ function place(size) {
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
+    attackType = ""; // defaults to regular attacks (empty string)
     document.getElementById("place_minesweeper").addEventListener("click", function(e) {
         shipType = "MINESWEEPER";
        registerCellListener(place(2));
@@ -146,6 +170,18 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
     });
+    document.getElementById("sonar_pulse_button").addEventListener("click", function(e) {
+        attackType = "Sonar";
+        document.getElementById("sonar_pulse_button").style.display = "none";
+        document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
+    });
+    document.getElementById("regular_wpn_button").addEventListener("click", function(e) {
+        attackType = "";
+        document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
+        document.getElementById("regular_wpn_button").style.display = "none";
+    });
+    document.getElementById("sonar_pulse_button").style.display = "none";
+    document.getElementById("regular_wpn_button").style.display = "none";
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
@@ -157,8 +193,6 @@ function attackPhase(){
     document.getElementById("place_battleship").style.display = "none";
     document.getElementById("is_vertical").style.display = "none";
     document.getElementById("vertical_caption").style.display = "none";
-    document.getElementById("setup_buttons").style.display = "none";
+    //document.getElementsByClassName("setup_buttons").style.display = "none";
     document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs.<span class=\"sonar-pulse\"><br>Use sonar pulse on a square to reveal nearby squares.</span>"
 }
-
-// TODO: if sonarPulses > 1 then show sonar pulse button

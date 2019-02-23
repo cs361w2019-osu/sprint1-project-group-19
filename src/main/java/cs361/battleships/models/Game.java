@@ -44,15 +44,29 @@ public class Game {
             return false;
         }
 
+        /*
         Result opponentAttackResult;
         do {
             // AI does random attacks, so it might attack the same spot twice
             // let it try until it gets it right
             opponentAttackResult = playersBoard.attack(randRow(), randCol());
         } while(opponentAttackResult.getResult() == INVALID);
+        */
+
+        opponentAttack();
 
         status = "";
+        initSonarPulse();
         return true;
+    }
+
+    private void opponentAttack(){
+        Result opponentAttackResult;
+        do {
+            // AI does random attacks, so it might attack the same spot twice
+            // let it try until it gets it right
+            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+        } while(opponentAttackResult.getResult() == INVALID);
     }
 
     private char randCol() {
@@ -68,9 +82,21 @@ public class Game {
         return new Random().nextBoolean();
     }
 
-    private void sonarPulse(){
+    private void initSonarPulse(){
         if ((opponentsBoard.numSunken() >= 1) && (playersBoard.getSonarPulses() == -1)){
             playersBoard.setSonarPulses(2);
+        }
+    }
+
+    public boolean useSonarPulse(int x, char y){
+        if (x >= 1 && x <= 10 && y >= 'A' && y <= 'J') { // check if coords are on the board
+            boolean ret = playersBoard.useSonarPulse();
+            if (ret){ // if sonar pulse use is valid
+                opponentAttack();
+            }
+            return ret;
+        } else {
+            return false;
         }
     }
 }
