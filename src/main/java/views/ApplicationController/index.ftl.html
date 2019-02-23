@@ -12,25 +12,42 @@
     The attack phase will start once all 3 ships are placed.
 </div>
 
-The opponent's board
-<table id="opponent" class="battleGrid" class="boardElement">
+
+
+<table id="statusbox" class="statustable" align="center">
+    <tr>
+        <th>STATUS</th>
+    </tr>
+    <tr>
+        <td>Place your ship</td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+</table>
+
+
+<table id="opponent" class="battleGrid" class="boardElement" style="margin-left:200px; margin-top:50px;">
+    <caption>AI Board</caption>
 </table>
 
 <ul class="boardElement">
+    <caption>Ships</caption>
     <li><button id="place_minesweeper" class="shipButton">Place Minesweeper</button></li>
     <li><button id="place_destroyer" class="shipButton">Place Destroyer</button></li>
     <li><button id="place_battleship" class="shipButton">Place Battleship</button></li>
     <li><input type="checkbox" id="is_vertical" class="shipButton"><span id="vertical_caption">Vertical</span></input></li>
 </ul>
 
-<table id="player" class="battleGrid" class="boardElement">
+<table id="player" class="battleGrid" style="margin-left:20px;">
+    <caption>Your Board</caption>
 </table>
 
 <table id="attackList" class="attackTable">
     <caption class ="tableCaption">Recent Attacks</caption>
     <tr>
-        <th>You</th>
         <th>AI</th>
+        <th>You</th>
     </tr>
     <tr>
         <td></td>
