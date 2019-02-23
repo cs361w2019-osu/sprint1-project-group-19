@@ -45,21 +45,22 @@ public class Ship {
 	}
 
 	public int getNumHits() { return numHits; }
+	public void setNumHits(int numHits) { this.numHits = numHits; }
 
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
 				var newSquare = new Square(row+i, col);
-				occupiedSquares.add(newSquare);
 				if(i == size-2) {
 					newSquare.setIsCapQuarters(true);
 				}
+				occupiedSquares.add(newSquare);
 			} else {
 				var newSquare = new Square(row, (char) (col + i));
-				occupiedSquares.add(newSquare);
 				if(i == size-2) {
 					newSquare.setIsCapQuarters(true);
 				}
+				occupiedSquares.add(newSquare);
 			}
 		}
 	}
@@ -96,6 +97,7 @@ public class Ship {
 		result.setShip(this);
 		if(getNumHits() > 0 && result.getLocation().getIsCapQuarters()) {
 			result.setResult(AtackStatus.MISS);
+			setNumHits(getNumHits()-1);
 		}
 		if (isSunk()) {
 			result.setResult(AtackStatus.SUNK);
