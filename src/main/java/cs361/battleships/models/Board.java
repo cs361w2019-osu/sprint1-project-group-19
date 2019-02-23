@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.abs;
+
 public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private List<Square> scans;
+	@JsonProperty private List<Square> scannedSquares;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -17,7 +21,8 @@ public class Board {
 	public Board() {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
-
+		scans = new ArrayList();
+		scannedSquares = new ArrayList();
 	}
 
 	/*
@@ -43,6 +48,55 @@ public class Board {
 		return true;
 	}
 
+	public boolean scanBoard(int x, char y) {
+		Square s = new Square(x,y);
+		if (x > 10 || x < 1 || y > 'J' || y < 'A') {
+			return false;
+		}
+		else if (scans.contains(s)) {
+			return false;
+		}
+		else {
+			scans.add(s);
+			addRadius(s);
+			return true;
+		}
+	}
+
+	private void addRadius(Square s) {
+		int xMid = s.getRow();
+		int xStart = xMid-2;
+		int xEnd = xMid+2;
+		if (xStart < 1) {
+			xStart = 1;
+		}
+		if (xEnd > 10) {
+			xEnd = 10;
+		}
+		int yMid = s.getColumn();
+		for (int i=xStart;i<=xEnd;i++) {
+			int yStart = yMid - (2-abs(i-xMid));
+			int yEnd = yMid + (2-abs(i-xMid));
+			if (yStart < 'A') {
+				yStart = 'A';
+			}
+			if (yEnd > 'J') {
+				yEnd = 'J';
+			}
+
+			for (int j=yStart;j<=yEnd;j++) {
+				Square newS = new Square(i,(char)j);
+				if(!scannedSquares.contains(newS)) {
+					scannedSquares.add(newS);
+				}
+			}
+		}
+	}
+
+	public List<Square> getScannedSquares() {
+		return scannedSquares;
+	}
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -50,7 +104,6 @@ public class Board {
 		Result attackResult = attack(new Square(x, y));
 		attacks.add(attackResult);
 		return attackResult;
-
 	}
 
 	private Result attack(Square s) {
@@ -74,7 +127,7 @@ public class Board {
 		return attackResult;
 	}
 
-	List<Ship> getShips() {
+	public List<Ship> getShips() {
 		return ships;
 
 	}

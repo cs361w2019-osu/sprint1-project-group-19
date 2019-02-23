@@ -56,6 +56,10 @@ public class Game {
         return true;
     }
 
+    public boolean scan(int x, char y) {
+        return (opponentsBoard.scanBoard(x,y));
+    }
+
     private char randCol() {
         int random = new Random().nextInt(10);
         return (char) ('A' + random);
