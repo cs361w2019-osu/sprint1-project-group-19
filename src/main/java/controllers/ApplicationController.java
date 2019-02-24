@@ -36,7 +36,7 @@ public class ApplicationController {
         Game game = g.getGame();
         boolean result;
         if (g.getAttackType().equals("Sonar")){
-            result = game.useSonarPulse(g.getActionRow(), g.getActionColumn());
+            result = game.scan(g.getActionRow(), g.getActionColumn());
         } else {
             result = game.attack(g.getActionRow(), g.getActionColumn());
         }
@@ -48,12 +48,6 @@ public class ApplicationController {
             return Results.badRequest();
         }
         */
-        return Results.json().render(game);
-    }
-
-    public Result scan(Context context, ScanGameAction g) {
-        Game game = g.getGame();
-        boolean result = game.scan(g.getActionRow(), g.getActionColumn());
         return Results.json().render(game);
     }
 }

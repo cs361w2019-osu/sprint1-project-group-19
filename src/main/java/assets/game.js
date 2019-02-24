@@ -1,6 +1,4 @@
 var isSetup = true;
-var scanning = false;
-var scan_cnt = 0;
 var placedShips = 0;
 var game;
 var shipType;
@@ -88,7 +86,6 @@ function redrawGrid() {
         document.getElementById("regular_wpn_button").style.display = "none";
         attackType = "";
     } else if (num_sonar_pulses > 0){
-    /*
         if (attackType == "Sonar"){
             document.getElementById("sonar_pulse_button").style.display = "none";
             document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
@@ -96,9 +93,6 @@ function redrawGrid() {
             document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
             document.getElementById("regular_wpn_button").style.display = "none";
         }
-        */
-        document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
-        document.getElementById("regular_wpn_button").style.display = "none";
         document.getElementById("sonar_pulse_button").innerHTML = "Use sonar pulse (" + num_sonar_pulses + " left)";
         attackType = "";
     }
@@ -134,22 +128,10 @@ function cellClick() {
             }
         });
     } else {
-        if ((scanning == true) && (scan_cnt < 3)) {
-            scanning = false;
-            sendXhr("POST", "/scan", {game: game, x: row, y: col}, function(data) {
-                game = data;
-                redrawGrid();
-                scan_cnt++;
-                if (scan_cnt == 3) {
-                    document.getElementById("place_scan").style.display = "none";
-                }
-            })
-        } else {
-            sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-                game = data;
-                redrawGrid();
-            })
-        }
+        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+            game = data;
+            redrawGrid();
+        });
     }
 }
 
@@ -237,19 +219,17 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener("player", place(4));
     });
-    document.getElementById("place_scan").addEventListener("click", function(e) {
-        scanning = true;
-        registerCellListener("opponent", scan());
-    });
     document.getElementById("sonar_pulse_button").addEventListener("click", function(e) {
         attackType = "Sonar";
         document.getElementById("sonar_pulse_button").style.display = "none";
         document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
+        registerCellListener("opponent", scan());
     });
     document.getElementById("regular_wpn_button").addEventListener("click", function(e) {
         attackType = "";
         document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
         document.getElementById("regular_wpn_button").style.display = "none";
+        registerCellListener("opponent", (e) => {});
     });
     document.getElementById("sonar_pulse_button").style.display = "none";
     document.getElementById("regular_wpn_button").style.display = "none";
@@ -259,13 +239,11 @@ function initGame() {
 };
 
 function attackPhase(){
-    document.getElementById("place_minesweeper").style.display = "none";
-    document.getElementById("place_destroyer").style.display = "none";
-    document.getElementById("place_battleship").style.display = "none";
-    document.getElementById("place_vertical").style.display = "none";
-    document.getElementById("is_vertical").style.display = "none";
-    document.getElementById("vertical_caption").style.display = "none";
-    document.getElementById("place_scan").style.display = "block";
+    document.getElementById("setup_buttons").style.display = "none";
+    document.getElementById("choose_weapon").style.display = "initial";
+    attackType = "";
+    document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
+    document.getElementById("regular_wpn_button").style.display = "none";
 
     document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs."
 }

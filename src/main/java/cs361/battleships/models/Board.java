@@ -50,18 +50,22 @@ public class Board {
 		return true;
 	}
 
-	public boolean scanBoard(int x, char y) {
-		Square s = new Square(x,y);
-		if (x > 10 || x < 1 || y > 'J' || y < 'A') {
-			return false;
-		}
-		else if (scans.contains(s)) {
-			return false;
+	public boolean useSonarPulse(int x, char y) {
+		if (sonarPulses > 0) {
+			Square s = new Square(x, y);
+			if (x > 10 || x < 1 || y > 'J' || y < 'A') {
+				return false;
+			} else if (scans.contains(s)) {
+				return false;
+			} else {
+				scans.add(s);
+				addRadius(s);
+				sonarPulses -= 1;
+				return true;
+			}
 		}
 		else {
-			scans.add(s);
-			addRadius(s);
-			return true;
+			return false;
 		}
 	}
 
@@ -129,15 +133,6 @@ public class Board {
 	public void setSonarPulses(int num){
 	    sonarPulses = num;
     }
-
-	public boolean useSonarPulse(){
-		if (sonarPulses > 0){
-			sonarPulses--;
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	private Result attack(Square s) {
 		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s))) {

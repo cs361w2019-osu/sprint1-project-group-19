@@ -5,6 +5,8 @@
     border: 1px solid black;
     border-spacing: 0px;
     display: inline-block;
+    padding-left:50px;
+    padding-right:50px;
 }
 
 .battleGrid tr {
@@ -96,10 +98,15 @@ li.shipButton {
     display: inline-block;
 }
 
-li.scanButton {
+.div-inline{
+	display: inline-block;
+}
+
+div.chooose_weapon {
     display: none;
 }
 
-.div-inline{
-	display: inline-block;
+div.column {
+    float:left;
+    width:33.33%
 }
