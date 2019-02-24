@@ -4,6 +4,7 @@
 .battleGrid {
     border: 1px solid black;
     border-spacing: 0px;
+    display: inline-block;
 }
 
 .battleGrid tr {
@@ -79,13 +80,20 @@ td:hover {
      height: 30px;
      width: 30px;
 }
+.statustable td {
+     border: 1px solid black;
+    height: 30px;
 
+}
+.statuscaption {
+    border: 1px solid black;
+}
 .boardElement {
     display: inline-block;
 }
 
-li.shipButton { 
-    display: block;
+li.shipButton {
+    display: inline-block;
 }
 
 li.scanButton {

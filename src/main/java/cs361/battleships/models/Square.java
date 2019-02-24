@@ -9,6 +9,7 @@ public class Square {
 	@JsonProperty private int row;
 	@JsonProperty private char column;
 	@JsonProperty private boolean hit = false;
+	@JsonProperty private boolean isCapQuarters = false;
 
 	public Square() {
 	}
@@ -25,6 +26,9 @@ public class Square {
 	public int getRow() {
 		return row;
 	}
+
+	public boolean getIsCapQuarters() { return isCapQuarters; }
+	public void setIsCapQuarters(boolean isCapQuarters) { this.isCapQuarters = isCapQuarters; }
 
 
 	@Override
