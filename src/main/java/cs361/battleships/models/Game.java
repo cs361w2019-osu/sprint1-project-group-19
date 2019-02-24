@@ -88,14 +88,15 @@ public class Game {
         }
     }
 
-    public boolean useSonarPulse(int x, char y){
+    public boolean scan(int x, char y){
         if (x >= 1 && x <= 10 && y >= 'A' && y <= 'J') { // check if coords are on the board
-            boolean ret = playersBoard.useSonarPulse();
+            boolean ret = playersBoard.useSonarPulse(x, y);
             if (ret){ // if sonar pulse use is valid
                 opponentAttack();
             }
             return ret;
         } else {
+            status = "you can't scan there";
             return false;
         }
     }

@@ -20,17 +20,48 @@ function makeGrid(table, isPlayer) {
 function markHits(board, elementId, surrenderText) {
     board.attacks.forEach((attack) => {
         let className;
-        if (attack.result === "MISS")
-            className = "miss";
-        else if (attack.result === "HIT")
+        if (attack.result === "MISS") {className = "miss";}
+        else if (attack.result === "HIT") {
             className = "hit";
-        else if (attack.result === "SUNK")
-            //className = "sink" // this results in only 1 square marked as sunk (other parts of the ship are still marked as hit)
-            className = "hit";
-        else if (attack.result === "SURRENDER")
+            board.ships.forEach((ship) => {
+                let sunk = true;
+                let touching = false;
+                ship.occupiedSquares.forEach((square) => {
+                    if ((attack.location.row === square.row) && (attack.location.column === square.column)) {
+                        touching = true;
+                    }
+                    if (square.hit === false) {
+                        sunk = false;
+                    }
+                });
+                if ((touching === true) && (sunk === true)) {
+                    className = "sink";
+                }
+            });
+        }
+        else if (attack.result === "SUNK") {
+            className = "sink";
+        }
+        else if (attack.result === "SURRENDER") {
+            className = "sink";
             alert(surrenderText);
+        }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
+}
+
+function markScan(board, elementId) {
+    board.scannedSquares.forEach((square) => {
+        document.getElementById(elementId).rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("scan");
+    })
+    board.ships.forEach((ship) => {
+        ship.occupiedSquares.forEach((square) => {
+            classNames = document.getElementById(elementId).rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList;
+            if (classNames.contains("scan") && !classNames.contains("hit") && !classNames.contains("sink")) {
+                document.getElementById(elementId).rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("hidden");
+            }
+        })
+    })
 }
 
 function redrawGrid() {
@@ -46,6 +77,7 @@ function redrawGrid() {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
     markHits(game.opponentsBoard, "opponent", "You won the game");
+    markScan(game.opponentsBoard, "opponent");
     markHits(game.playersBoard, "player", "You lost the game");
 
     var num_sonar_pulses = game.playersBoard.sonarPulses;
@@ -54,7 +86,6 @@ function redrawGrid() {
         document.getElementById("regular_wpn_button").style.display = "none";
         attackType = "";
     } else if (num_sonar_pulses > 0){
-    /*
         if (attackType == "Sonar"){
             document.getElementById("sonar_pulse_button").style.display = "none";
             document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
@@ -62,17 +93,14 @@ function redrawGrid() {
             document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
             document.getElementById("regular_wpn_button").style.display = "none";
         }
-        */
-        document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
-        document.getElementById("regular_wpn_button").style.display = "none";
         document.getElementById("sonar_pulse_button").innerHTML = "Use sonar pulse (" + num_sonar_pulses + " left)";
         attackType = "";
     }
 }
 
 var oldListener;
-function registerCellListener(f) {
-    let el = document.getElementById("player");
+function registerCellListener(e, f) {
+    let el = document.getElementById(e);
     for (i=0; i<10; i++) {
         for (j=0; j<10; j++) {
             let cell = el.rows[i].cells[j];
@@ -96,14 +124,14 @@ function cellClick() {
             if (placedShips == 3) {
                 isSetup = false;
                 attackPhase();
-                registerCellListener((e) => {});
+                registerCellListener("player", (e) => {});
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col, type: attackType}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
-        })
+        });
     }
 }
 
@@ -154,31 +182,54 @@ function place(size) {
     }
 }
 
+function scan() {
+    return function() {
+        let row = this.parentNode.rowIndex;
+        let col = this.cellIndex;
+        let table = document.getElementById("opponent");
+        let iStart = row-2;
+        let iEnd = row+2;
+        if (iStart < 0) {iStart = 0;};
+        if (iEnd > 9) {iEnd = 9;};
+        for (let i=iStart;i<=iEnd;i++){
+            let jStart = col - (2-Math.abs(i-row));
+            let jEnd = col + (2-Math.abs(i-row));
+            if (jStart < 0) {jStart = 0;};
+            if (jEnd > 9) {jEnd = 9;};
+            for (let j=jStart;j<=jEnd;j++) {
+                table.rows[i].cells[j].classList.toggle("placed");
+            }
+        }
+    }
+}
+
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
     attackType = ""; // defaults to regular attacks (empty string)
     document.getElementById("place_minesweeper").addEventListener("click", function(e) {
         shipType = "MINESWEEPER";
-       registerCellListener(place(2));
+       registerCellListener("player", place(2));
     });
     document.getElementById("place_destroyer").addEventListener("click", function(e) {
         shipType = "DESTROYER";
-       registerCellListener(place(3));
+       registerCellListener("player", place(3));
     });
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
-       registerCellListener(place(4));
+       registerCellListener("player", place(4));
     });
     document.getElementById("sonar_pulse_button").addEventListener("click", function(e) {
         attackType = "Sonar";
         document.getElementById("sonar_pulse_button").style.display = "none";
         document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
+        registerCellListener("opponent", scan());
     });
     document.getElementById("regular_wpn_button").addEventListener("click", function(e) {
         attackType = "";
         document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
         document.getElementById("regular_wpn_button").style.display = "none";
+        registerCellListener("opponent", (e) => {});
     });
     document.getElementById("sonar_pulse_button").style.display = "none";
     document.getElementById("regular_wpn_button").style.display = "none";
@@ -188,13 +239,12 @@ function initGame() {
 };
 
 function attackPhase(){
+    document.getElementById("setup_buttons").style.display = "none";
+    document.getElementById("choose_weapon").style.display = "initial";
+    attackType = "";
+    document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
+    document.getElementById("regular_wpn_button").style.display = "none";
 
-    //document.getElementById("place_minesweeper").style.display = "none";
-    //document.getElementById("place_destroyer").style.display = "none";
-    //document.getElementById("place_battleship").style.display = "none";
-    //document.getElementById("is_vertical").style.display = "none";
-   // document.getElementById("vertical_caption").style.display = "none";
-   // document.getElementById("vertical_caption").style.display = "none";
     document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs."
 }
 

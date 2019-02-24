@@ -26,29 +26,34 @@
     </tr>
 </table>
 
+<div class="column">
+    <table id="opponent" class="battleGrid" class="boardElement">
+        <caption>AI Board</caption>
+    </table>
+</div>
 
-<table id="opponent" class="battleGrid" class="boardElement" style="margin-left:200px; margin-top:50px;">
-    <caption>AI Board</caption>
-</table>
+<div class="column">
+    <ul class="boardElement" id="setup_buttons">
 
+        <caption>Ships</caption>
 
-<ul class="boardElement" class="setup_buttons">
+        <li><button id="place_minesweeper" class="shipButton">Place Minesweeper</button></li>
+        <li><button id="place_destroyer" class="shipButton">Place Destroyer</button></li>
+        <li><button id="place_battleship" class="shipButton">Place Battleship</button></li>
+        <li><input type="checkbox" id="is_vertical" class="shipButton"><span id="vertical_caption">Vertical</span></input></li>
+    </ul>
 
-    <caption>Ships</caption>
+    <div id="choose_weapon">
+        <button id="sonar_pulse_button">Use sonar pulse</button>
+        <button id="regular_wpn_button">Use regular weapon</button>
+    </div>
+</div>
 
-    <li><button id="place_minesweeper" class="shipButton">Place Minesweeper</button></li>
-    <li><button id="place_destroyer" class="shipButton">Place Destroyer</button></li>
-    <li><button id="place_battleship" class="shipButton">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical" class="shipButton"><span id="vertical_caption">Vertical</span></input></li>
-</ul>
-
-
-<button id="sonar_pulse_button">Use sonar pulse</button>
-<button id="regular_wpn_button">Use regular weapon</button>
-
-<table id="player" class="battleGrid" class="boardElement">
-    <caption>Your Board</caption>
-</table>
+<div class="column">
+    <table id="player" class="battleGrid" class="boardElement">
+        <caption>Your Board</caption>
+    </table>
+</div>
 
 <table id="attackList" class="attackTable">
     <caption class ="tableCaption">Recent Attacks</caption>

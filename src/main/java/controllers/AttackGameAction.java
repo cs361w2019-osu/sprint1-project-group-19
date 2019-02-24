@@ -8,7 +8,7 @@ public class AttackGameAction {
     @JsonProperty private Game game;
     @JsonProperty private int x;
     @JsonProperty private char y;
-    @JsonProperty private String type; // empty string = regular attacks
+    @JsonProperty private String Atttype; // empty string = regular attacks
 
     public Game getGame() {
         return game;
@@ -23,6 +23,6 @@ public class AttackGameAction {
     }
 
     public String getAttackType() {
-        return type;
+        return Atttype;
     }
 }
