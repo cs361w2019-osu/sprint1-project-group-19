@@ -12,11 +12,12 @@ public class BoardTest {
     @Test
     public void testInvalidScan(){
         Board testBoard = new Board();
-        assertFalse(testBoard.scanBoard(12,'Z'));
-        assertTrue(testBoard.scanBoard(5,'E'));
-        assertFalse(testBoard.scanBoard(5,'E'));
-        assertTrue(testBoard.scanBoard(5,'F'));
-        assertTrue(testBoard.scanBoard(1,'A'));
+        assertFalse(testBoard.useSonarPulse(12,'Z'));
+        testBoard.setSonarPulses(3);
+        assertTrue(testBoard.useSonarPulse(5,'E'));
+        assertFalse(testBoard.useSonarPulse(5,'E'));
+        assertTrue(testBoard.useSonarPulse(5,'F'));
+        assertTrue(testBoard.useSonarPulse(1,'A'));
     }
 
 
