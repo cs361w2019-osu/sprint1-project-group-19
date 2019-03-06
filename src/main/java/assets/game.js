@@ -128,7 +128,7 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, Atttype:attackType}, function(data) {
             game = data;
             redrawGrid();
         });
