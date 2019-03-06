@@ -159,4 +159,49 @@ public class Board {
 		return ships;
 
 	}
+
+	private char opposite(char dir){
+		char oppositeDir = ' ';
+		switch (dir){
+			case 'N':
+				oppositeDir = 'S';
+				break;
+			case 'S':
+				oppositeDir = 'N';
+				break;
+			case 'E':
+				oppositeDir = 'W';
+				break;
+			case 'W':
+				oppositeDir = 'E';
+				break;
+		}
+		return oppositeDir;
+	}
+
+	public boolean moveShip(Ship s, char dir){
+		// create an array of all ships except the one we are trying to move, for overlap checks
+		ArrayList<Ship> allButTarget = new ArrayList<>(); // contains all ships on the board except the one we are trying to move
+		for (Ship cur : ships){
+			if (!(cur.equals(s))){
+				allButTarget.add(cur);
+			}
+		}
+
+		// move the ship
+		if (s.move(dir)){ // if move successful (does not result in the ship being out of the board)
+			// check overlaps
+			for (Ship check : allButTarget){
+				if (s.overlaps(check)){ // if ship overlaps
+					// move the opposite direction (undo move)
+					char oppositeDir = opposite(dir);
+					s.move(oppositeDir);
+					return false;
+				}
+			}
+		} else { // if move results in the ship being out of the board
+			return false;
+		}
+		return true; // if everything went right
+	}
 }

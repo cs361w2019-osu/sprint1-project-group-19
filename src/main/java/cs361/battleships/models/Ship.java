@@ -124,6 +124,47 @@ public class Ship {
 				&& this.occupiedSquares.equals(otherShip.occupiedSquares);
 	}
 
+	private Pair getDiff(char dir){
+		Pair p = new Pair();
+		p.a = 0;
+		p.b = 0;
+		switch (dir){
+			case 'N':
+				p.a = -1;
+				break;
+			case 'E':
+				p.b = -1;
+				break;
+			case 'S':
+				p.a = 1;
+				break;
+			case 'W':
+				p.b = 1;
+				break;
+		}
+		return p;
+	}
+
+	public boolean move(char dir){
+		// step 1: get direction
+		Pair diff = getDiff(dir);
+		int rowDiff = diff.b;
+		int colDiff = diff.a;
+
+		// step 2: check
+		for (Square sq : occupiedSquares){
+			if (!(sq.moveCheck(rowDiff, colDiff))){
+				return false;
+			}
+		}
+
+		// step 3: move
+		for (Square sq : occupiedSquares){
+			sq.move(rowDiff, colDiff);
+		}
+		return true;
+	}
+
 	@Override
 	public int hashCode() {
 		return 33 * kind.hashCode() + 23 * size + 17 * occupiedSquares.hashCode();
