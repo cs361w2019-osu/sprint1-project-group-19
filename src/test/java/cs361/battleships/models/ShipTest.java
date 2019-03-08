@@ -19,7 +19,57 @@ public class ShipTest {
         expected.add(new Square(1, 'B'));
         assertEquals(expected, occupiedSquares);
     }
+    @Test
+    public void testPlaceSubmarineHorizontaly() {
+        Ship submarine = new Ship("SUBMARINE");
+        submarine.place('A', 2, false);
+        List<Square> occupiedSquares = submarine.getOccupiedSquares();
+        ArrayList<Object> expected = new ArrayList<>();
+        expected.add(new Square(2, 'A'));
+        expected.add(new Square(2, 'B'));
+        expected.add(new Square(2, 'C'));
+        expected.add(new Square(2, 'D'));
+        expected.add(new Square(1, 'C'));
+        assertEquals(expected, occupiedSquares);
+    }
 
+    @Test
+    public void testPlaceSubmarineOverlapping() {
+        Ship submarine = new Ship("SUBMARINE");
+        Ship battleship = new Ship("BATTLESHIP");
+        submarine.place('A', 2, false);
+        battleship.place('B',2,false);
+        List<Square> occupiedSquares1 = submarine.getOccupiedSquares();
+        List<Square> occupiedSquares2 = battleship.getOccupiedSquares();
+        ArrayList<Object> expected1 = new ArrayList<>();
+        ArrayList<Object> expected2 = new ArrayList<>();
+        expected1.add(new Square(2, 'A'));
+        expected1.add(new Square(2, 'B'));
+        expected1.add(new Square(2, 'C'));
+        expected1.add(new Square(2, 'D'));
+        expected1.add(new Square(1, 'C'));
+
+        expected2.add(new Square(2, 'B'));
+        expected2.add(new Square(2, 'C'));
+        expected2.add(new Square(2, 'D'));
+        expected2.add(new Square(2, 'E'));
+        assertEquals(expected1, occupiedSquares1);
+        assertEquals(expected2, occupiedSquares2);
+    }
+
+    @Test
+    public void testPlaceSubmarineVertically() {
+        Ship submarine = new Ship("SUBMARINE");
+        submarine.place('A', 1, true);
+        List<Square> occupiedSquares = submarine.getOccupiedSquares();
+        ArrayList<Object> expected = new ArrayList<>();
+        expected.add(new Square(1, 'A'));
+        expected.add(new Square(2, 'A'));
+        expected.add(new Square(3, 'A'));
+        expected.add(new Square(4, 'A'));
+        expected.add(new Square(3, 'B'));
+        assertEquals(expected, occupiedSquares);
+    }
     @Test
     public void testPlaceMinesweeperVertically() {
         Ship minesweeper = new Ship("MINESWEEPER");
