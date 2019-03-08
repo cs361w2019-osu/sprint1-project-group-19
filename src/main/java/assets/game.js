@@ -121,7 +121,7 @@ function cellClick() {
             game = data;
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == 4) {
                 isSetup = false;
                 attackPhase();
                 registerCellListener("player", (e) => {});
@@ -219,6 +219,10 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener("player", place(4));
     });
+    document.getElementById("place_submarine").addEventListener("click", function(e) {
+                    shipType = "SUBMARINE";
+                   registerCellListener(place(5));
+                });
     document.getElementById("sonar_pulse_button").addEventListener("click", function(e) {
         attackType = "Sonar";
         document.getElementById("sonar_pulse_button").style.display = "none";
