@@ -25,6 +25,9 @@ public class Ship {
 		this();
 		this.kind = kind;
 		switch(kind) {
+			case "SUBMARINE":
+				size = 5;
+				break;
 			case "MINESWEEPER":
 				size = 2;
 				numHits = 1;
@@ -48,19 +51,40 @@ public class Ship {
 	public void setNumHits(int numHits) { this.numHits = numHits; }
 
 	public void place(char col, int row, boolean isVertical) {
-		for (int i=0; i<size; i++) {
-			if (isVertical) {
-				var newSquare = new Square(row+i, col);
-				if(i == size-2) {
-					newSquare.setIsCapQuarters(true);
+		if (this.kind.equals("SUBMARINE")) {
+			for (int i = 0; i < size; i++) {
+				if (i != size - 1) {
+					if (isVertical) {
+						occupiedSquares.add(new Square(row + i, col));
+					} else {
+						occupiedSquares.add(new Square(row, (char) (col + i)));
+
+					}
+				} else {
+
+					if (isVertical) {
+						occupiedSquares.add(new Square(row + 2, (char) (col + 1)));
+					} else {
+						occupiedSquares.add(new Square(row - 1, (char) (col + 2)));
+					}
 				}
-				occupiedSquares.add(newSquare);
-			} else {
-				var newSquare = new Square(row, (char) (col + i));
-				if(i == size-2) {
-					newSquare.setIsCapQuarters(true);
+			}
+
+		} else {
+			for (int i = 0; i < size; i++) {
+				if (isVertical) {
+					var newSquare = new Square(row + i, col);
+					if (i == size - 2) {
+						newSquare.setIsCapQuarters(true);
+					}
+					occupiedSquares.add(newSquare);
+				} else {
+					var newSquare = new Square(row, (char) (col + i));
+					if (i == size - 2) {
+						newSquare.setIsCapQuarters(true);
+					}
+					occupiedSquares.add(newSquare);
 				}
-				occupiedSquares.add(newSquare);
 			}
 		}
 	}
