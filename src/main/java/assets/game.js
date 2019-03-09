@@ -3,6 +3,7 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
+var underwater;
 var attackType; // "" = regular attacks, "Sonar" = sonar pulse
 
 function makeGrid(table, isPlayer) {
@@ -117,7 +118,7 @@ function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
     if (isSetup) {
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical, isUnderwater: underwater}, function(data) {
             game = data;
             redrawGrid();
             placedShips++;
@@ -160,6 +161,7 @@ function place(size) {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
         vertical = document.getElementById("is_vertical").checked;
+        underwater = document.getElementById("is_underwater").checked;
         let table = document.getElementById("player");
         for (let i=0; i<size; i++) {
             let cell;
