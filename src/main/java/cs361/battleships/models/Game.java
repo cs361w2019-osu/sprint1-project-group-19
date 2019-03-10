@@ -16,10 +16,10 @@ public class Game {
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-    public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-        boolean successful = playersBoard.placeShip(ship, x, y, isVertical);
+    public boolean placeShip(Ship ship, int x, char y, boolean isVertical, boolean isUnderwater) {
+        boolean successful = playersBoard.placeShip(ship, x, y, isVertical, isUnderwater);
         if (!successful) {
-            status = "The entire ship must be on the board and ships cannot overlap with each other.";
+            status = "The entire ship must be on the board and surface ships cannot overlap with each other.";
             return false;
         }
 
@@ -27,7 +27,7 @@ public class Game {
         do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical(), randUnderwater());
         } while (!opponentPlacedSuccessfully);
 
         status = "";
@@ -81,6 +81,11 @@ public class Game {
     private boolean randVertical() {
         return new Random().nextBoolean();
     }
+
+    private boolean randUnderwater() {
+        return new Random().nextBoolean();
+    }
+
 
     private void initSonarPulse(){
         if ((opponentsBoard.numSunken() >= 1) && (opponentsBoard.getSonarPulses() == -1)){
