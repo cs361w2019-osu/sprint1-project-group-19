@@ -84,8 +84,8 @@ public class Game {
     }
 
     private void initSonarPulse(){
-        if ((opponentsBoard.numSunken() >= 1) && (playersBoard.getSonarPulses() == -1)){
-            playersBoard.setSonarPulses(2);
+        if ((opponentsBoard.numSunken() >= 1) && (opponentsBoard.getSonarPulses() == -1)){
+            opponentsBoard.setSonarPulses(2);
         }
     }
 
@@ -97,7 +97,7 @@ public class Game {
 
     public boolean scan(int x, char y){
         if (x >= 1 && x <= 10 && y >= 'A' && y <= 'J') { // check if coords are on the board
-            boolean ret = playersBoard.useSonarPulse(x, y);
+            boolean ret = opponentsBoard.useSonarPulse(x, y);
             if (ret){ // if sonar pulse use is valid
                 opponentAttack();
             }

@@ -84,6 +84,7 @@ function redrawGrid() {
 
     // sonar pulses
     var num_sonar_pulses = game.playersBoard.sonarPulses;
+
     if (num_sonar_pulses <= 0){ // 0/1/2 = number of sonar pulses left, -1 = sonar pulse not yet available
         document.getElementById("sonar_pulse_button").style.display = "none";
         document.getElementById("regular_wpn_button").style.display = "none";
@@ -133,14 +134,15 @@ function cellClick() {
             game = data;
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == 4) {
                 isSetup = false;
                 attackPhase();
                 registerCellListener("player", (e) => {});
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col, Atttype:attackType}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, Atttype: attackType}, function(data) {
+
             game = data;
             redrawGrid();
         });
@@ -250,6 +252,10 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener("player", place(4));
     });
+    document.getElementById("place_submarine").addEventListener("click", function(e) {
+                    shipType = "SUBMARINE";
+                   registerCellListener(place(5));
+                });
     document.getElementById("sonar_pulse_button").addEventListener("click", function(e) {
         attackType = "Sonar";
         document.getElementById("sonar_pulse_button").style.display = "none";
