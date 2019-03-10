@@ -5,6 +5,8 @@ var shipType;
 var vertical;
 var underwater;
 var attackType; // "" = regular attacks, "Sonar" = sonar pulse
+var move_ship_type;
+var move_ship_dir;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -81,7 +83,9 @@ function redrawGrid() {
     markScan(game.opponentsBoard, "opponent");
     markHits(game.playersBoard, "player", "You lost the game");
 
-    var num_sonar_pulses = game.opponentsBoard.sonarPulses;
+    // sonar pulses
+    var num_sonar_pulses = game.playersBoard.sonarPulses;
+
     if (num_sonar_pulses <= 0){ // 0/1/2 = number of sonar pulses left, -1 = sonar pulse not yet available
         document.getElementById("sonar_pulse_button").style.display = "none";
         document.getElementById("regular_wpn_button").style.display = "none";
@@ -96,6 +100,15 @@ function redrawGrid() {
         }
         document.getElementById("sonar_pulse_button").innerHTML = "Use sonar pulse (" + num_sonar_pulses + " left)";
         attackType = "";
+    }
+
+    // moves
+    var num_moves = game.playersBoard.moves;
+    if (num_moves <= 0){ // 0/1/2 = number of moves left, -1 = move not yet available
+        document.getElementById("move").style.display = "none";
+    } else if (num_moves > 0){
+        document.getElementById("move").style.display = "initial";
+        document.getElementById("num_moves").innerHTML = num_moves;
     }
 }
 
@@ -130,6 +143,7 @@ function cellClick() {
         });
     } else {
         sendXhr("POST", "/attack", {game: game, x: row, y: col, Atttype: attackType}, function(data) {
+
             game = data;
             redrawGrid();
         });
@@ -205,6 +219,25 @@ function scan() {
     }
 }
 
+function move(){
+    let move_ship_type_option = document.getElementsByName("moveship");
+    let move_ship_dir_option = document.getElementsByName("movedir");
+    let move_ship_type = "";
+    let move_ship_dir = "";
+    for (let x = 0; x < 4; x++){
+        if (move_ship_type_option[x].checked){
+            move_ship_type = move_ship_type_option[x].value;
+        }
+        if (move_ship_dir_option[x].checked){
+            move_ship_dir = move_ship_dir_option[x].value;
+        }
+    }
+    sendXhr("POST", "/move", {game: game, shipType: move_ship_type, dir: move_ship_dir}, function(data) {
+        game = data;
+        redrawGrid();
+    })
+}
+
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
@@ -237,8 +270,13 @@ function initGame() {
         document.getElementById("regular_wpn_button").style.display = "none";
         registerCellListener("opponent", (e) => {});
     });
+    document.getElementById("apply_move").addEventListener("click", function(e) {
+        move();
+    });
     document.getElementById("sonar_pulse_button").style.display = "none";
     document.getElementById("regular_wpn_button").style.display = "none";
+    document.getElementById("move").style.display = "none";
+
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });

@@ -48,6 +48,30 @@
         <button id="sonar_pulse_button">Use sonar pulse</button>
         <button id="regular_wpn_button">Use regular weapon</button>
     </div>
+
+    <br>
+
+    <div id="move">
+        Move a ship (<span id="num_moves"></span> left, requires a turn)<br>
+        <div id="move_ship">
+            1. Select a ship:<br>
+            <input type="radio" id="move_mine" name="moveship" value="MINESWEEPER">Minesweeper (2 tiles)<br>
+            <input type="radio" id="move_dest" name="moveship" value="DESTROYER">Destroyer (3 tiles)<br>
+            <input type="radio" id="move_bs" name="moveship" value="BATTLESHIP">Battleship (4 tiles)<br>
+            <input type="radio" id="move_sub" name="moveship" value="SUBMARINE">Submarine (5 tiles)
+        </div>
+        <div id="move_dir">
+            2. Select a direction:<br>
+            <input type="radio" id="move_n" name="movedir" value="N">North (up)<br>
+            <input type="radio" id="move_e" name="movedir" value="W">West (left)<br>
+            <input type="radio" id="move_w" name="movedir" value="E">East (right)<br>
+            <input type="radio" id="move_s" name="movedir" value="S">South (down)
+        </div>
+        3. Confirm move:
+        <button id="apply_move">Move the selected ship</button>
+
+    </div>
+
 </div>
 
 <div class="column">

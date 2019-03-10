@@ -61,4 +61,23 @@ public class Square {
 	public String toString() {
 		return "(" + row + ", " + column + ')';
 	}
+
+	// checks if the target coordinates are on the board
+	public boolean moveCheck(int diffX, int diffY){
+		if (row + diffX < 1 || row + diffX > 10 || column + diffY < 'A' || column + diffY > 'J'){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public boolean move(int diffX, int diffY){ // diffY is int because char is unsigned
+		if (moveCheck(diffX,  diffY)) {
+			row += diffX;
+			column += diffY;
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
