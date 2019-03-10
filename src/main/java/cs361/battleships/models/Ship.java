@@ -16,6 +16,7 @@ public class Ship {
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
 	@JsonProperty private int numHits;
+	@JsonProperty private boolean isUnderwater;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -27,19 +28,23 @@ public class Ship {
 		switch(kind) {
 			case "SUBMARINE":
 				size = 5;
-				numHits = 1;
+				numHits = 2;
+				isUnderwater = false;
 				break;
 			case "MINESWEEPER":
 				size = 2;
 				numHits = 1;
+				isUnderwater = false;
 				break;
 			case "DESTROYER":
 				size = 3;
 				numHits = 2;
+				isUnderwater = false;
 				break;
 			case "BATTLESHIP":
 				size = 4;
 				numHits = 2;
+				isUnderwater = false;
 				break;
 		}
 	}
@@ -51,15 +56,30 @@ public class Ship {
 	public int getNumHits() { return numHits; }
 	public void setNumHits(int numHits) { this.numHits = numHits; }
 
-	public void place(char col, int row, boolean isVertical) {
+	public boolean getIsUnderwater() { return isUnderwater; }
+	public void setIsUnderwater(boolean isUnderwater) { this.isUnderwater = isUnderwater; }
+
+	public void place(char col, int row, boolean isVertical, boolean isUnderwater) {
 		if (this.kind.equals("SUBMARINE")) {
+			if(isUnderwater) {
+				this.setIsUnderwater(true);
+			}
 			for (int i = 0; i < size; i++) {
 				if (i != size - 1) {
 					if (isVertical) {
-						occupiedSquares.add(new Square(row + i, col));
+						var newSquare = new Square(row + i, col);
+						if(i == size-2) {
+							newSquare.setIsCapQuarters(true);
+						}
+						occupiedSquares.add(newSquare);
 					} else {
-						occupiedSquares.add(new Square(row, (char) (col + i)));
+						var newSquare = new Square(row, (char) (col + i));
+						if(i == size-2) {
+							newSquare.setIsCapQuarters(true);
+						}
+						occupiedSquares.add(newSquare);
 					}
+					
 				} else {
 					if (isVertical) {
 						occupiedSquares.add(new Square(row + 2, (char) (col + 1)));

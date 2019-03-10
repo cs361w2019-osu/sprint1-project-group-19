@@ -31,7 +31,7 @@ public class Board {
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+	public boolean placeShip(Ship ship, int x, char y, boolean isVertical, boolean isUnderwater) {
 		if (ships.size() >= 4) {
 
 			return false;
@@ -39,12 +39,21 @@ public class Board {
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
+
+		if (!ship.getKind().equals("SUBMARINE") && isUnderwater) {
+			return false;
+		}
 		final var placedShip = new Ship(ship.getKind());
-		placedShip.place(y, x, isVertical);
+		placedShip.place(y, x, isVertical, isUnderwater);
 
 		if ((!ship.getKind().equals("SUBMARINE"))&&ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
 			return false;
 		}
+
+		if ((ship.getKind().equals("SUBMARINE") && !ship.getIsUnderwater()) && ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
+			return false;
+		}
+
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
 			return false;
 		}
