@@ -1,9 +1,10 @@
 var isSetup = true;
+var isPlaying = false;
 var placedShips = 0;
 var game;
 var shipType;
 var vertical;
-var attackType; // "" = regular attacks, "Sonar" = sonar pulse
+var attackType; // "" = regular attacks, "Sonar" = sonar pulse, "Laser" = laser beam
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -20,7 +21,9 @@ function makeGrid(table, isPlayer) {
 function markHits(board, elementId, surrenderText) {
     board.attacks.forEach((attack) => {
         let className;
-        if (attack.result === "MISS") {className = "miss";}
+        if (attack.result === "MISS") {
+            className = "miss";
+        }
         else if (attack.result === "HIT") {
             className = "hit";
             board.ships.forEach((ship) => {
@@ -45,6 +48,7 @@ function markHits(board, elementId, surrenderText) {
         else if (attack.result === "SURRENDER") {
             className = "sink";
             alert(surrenderText);
+            isPlaying = false;
         }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
@@ -53,7 +57,7 @@ function markHits(board, elementId, surrenderText) {
 function markScan(board, elementId) {
     board.scannedSquares.forEach((square) => {
         document.getElementById(elementId).rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("scan");
-    })
+    });
     board.ships.forEach((ship) => {
         ship.occupiedSquares.forEach((square) => {
             classNames = document.getElementById(elementId).rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList;
@@ -73,6 +77,26 @@ function redrawGrid() {
         return;
     }
 
+    if(isSetup) {
+        document.getElementById("regular_wpn_button").style.display = "none";
+        document.getElementById("sonar_pulse_button").style.display = "none";
+
+        document.getElementById("place_minesweeper").style.display = "block";
+        document.getElementById("place_destroyer").style.display = "block";
+        document.getElementById("place_battleship").style.display = "block";
+        document.getElementById("place_submarine").style.display = "block";
+        document.getElementById("is_vertical").style.display = "block";
+    } else if (isPlaying) {
+        document.getElementById("place_minesweeper").style.display = "none";
+        document.getElementById("place_destroyer").style.display = "none";
+        document.getElementById("place_battleship").style.display = "none";
+        document.getElementById("place_submarine").style.display = "none";
+        document.getElementById("is_vertical").style.display = "none";
+
+        document.getElementById("regular_wpn_button").style.display = "block";
+        document.getElementById("sonar_pulse_button").style.display = "block";
+    }
+
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
@@ -82,19 +106,22 @@ function redrawGrid() {
 
     var num_sonar_pulses = game.opponentsBoard.sonarPulses;
     if (num_sonar_pulses <= 0){ // 0/1/2 = number of sonar pulses left, -1 = sonar pulse not yet available
-        document.getElementById("sonar_pulse_button").style.display = "none";
-        document.getElementById("regular_wpn_button").style.display = "none";
-        attackType = "";
+        document.getElementById("sonar_pulse_button").disabled = true;
+        document.getElementById("regular_wpn_button").disabled = true;
+        document.getElementById("sonar_pulse_button").innerHTML = "Use sonar pulse (" + num_sonar_pulses + " left)";
     } else if (num_sonar_pulses > 0){
         if (attackType == "Sonar"){
-            document.getElementById("sonar_pulse_button").style.display = "none";
-            document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
+            document.getElementById("sonar_pulse_button").disabled = true;
+            document.getElementById("regular_wpn_button").disabled = false;
         } else {
-            document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
-            document.getElementById("regular_wpn_button").style.display = "none";
+            document.getElementById("sonar_pulse_button").disabled = false;
+            document.getElementById("regular_wpn_button").disabled = true;
         }
         document.getElementById("sonar_pulse_button").innerHTML = "Use sonar pulse (" + num_sonar_pulses + " left)";
-        attackType = "";
+
+        if(game.opponentsBoard.usingLaser) {
+            document.getElementById("regular_wpn_button").innerText = "use SUPER LASER";
+        }
     }
 }
 
@@ -123,14 +150,20 @@ function cellClick() {
             placedShips++;
             if (placedShips == 4) {
                 isSetup = false;
+                isPlaying = true;
                 attackPhase();
                 registerCellListener("player", (e) => {});
             }
         });
-    } else {
+    } else if (isPlaying) {
         sendXhr("POST", "/attack", {game: game, x: row, y: col, Atttype: attackType}, function(data) {
             game = data;
             redrawGrid();
+            if (attackType == "Sonar") {
+                document.getElementById("sonar_pulse_button").disabled = false;
+                document.getElementById("regular_wpn_button").disabled = true;
+                attackType = "";
+            };
         });
     }
 }
@@ -206,49 +239,77 @@ function scan() {
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
+
     attackType = ""; // defaults to regular attacks (empty string)
+
+    document.getElementById("regular_wpn_button").style.display = "none";
+    document.getElementById("sonar_pulse_button").style.display = "none";
+
+    document.getElementById("place_minesweeper").style.display = "block";
+    document.getElementById("place_destroyer").style.display = "block";
+    document.getElementById("place_battleship").style.display = "block";
+    document.getElementById("place_submarine").style.display = "block";
+    document.getElementById("is_vertical").style.display = "block";
+
     document.getElementById("place_minesweeper").addEventListener("click", function(e) {
         shipType = "MINESWEEPER";
+        document.getElementById("place_minesweeper").disabled = true;
+        document.getElementById("place_destroyer").disabled = false;
+        document.getElementById("place_battleship").disabled = false;
+        document.getElementById("place_submarine").disabled = false;
        registerCellListener("player", place(2));
     });
     document.getElementById("place_destroyer").addEventListener("click", function(e) {
         shipType = "DESTROYER";
+        document.getElementById("place_minesweeper").disabled = false;
+        document.getElementById("place_destroyer").disabled = true;
+        document.getElementById("place_battleship").disabled = false;
+        document.getElementById("place_submarine").disabled = false;
        registerCellListener("player", place(3));
     });
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
+        document.getElementById("place_minesweeper").disabled = false;
+        document.getElementById("place_destroyer").disabled = false;
+        document.getElementById("place_battleship").disabled = true;
+        document.getElementById("place_submarine").disabled = false;
        registerCellListener("player", place(4));
     });
     document.getElementById("place_submarine").addEventListener("click", function(e) {
-                    shipType = "SUBMARINE";
-                   registerCellListener(place(5));
-                });
+        shipType = "SUBMARINE";
+        document.getElementById("place_minesweeper").disabled = false;
+        document.getElementById("place_destroyer").disabled = false;
+        document.getElementById("place_battleship").disabled = false;
+        document.getElementById("place_submarine").disabled = true;
+        registerCellListener("player", place(5));
+    });
     document.getElementById("sonar_pulse_button").addEventListener("click", function(e) {
         attackType = "Sonar";
-        document.getElementById("sonar_pulse_button").style.display = "none";
-        document.getElementById("regular_wpn_button").style.display = "initial"; // initial = default element display property
+        document.getElementById("sonar_pulse_button").disabled = false;
+        document.getElementById("regular_wpn_button").disabled = true;
         registerCellListener("opponent", scan());
     });
     document.getElementById("regular_wpn_button").addEventListener("click", function(e) {
         attackType = "";
-        document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
-        document.getElementById("regular_wpn_button").style.display = "none";
+        document.getElementById("sonar_pulse_button").disabled = true;
+        document.getElementById("regular_wpn_button").disabled = false;
         registerCellListener("opponent", (e) => {});
     });
-    document.getElementById("sonar_pulse_button").style.display = "none";
-    document.getElementById("regular_wpn_button").style.display = "none";
+
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
 };
 
 function attackPhase(){
-    document.getElementById("setup_buttons").style.display = "none";
-    document.getElementById("choose_weapon").style.display = "initial";
-    attackType = "";
-    document.getElementById("sonar_pulse_button").style.display = "initial"; // initial = default element display property
-    document.getElementById("regular_wpn_button").style.display = "none";
+    document.getElementById("regular_wpn_button").style.display = "block";
+    document.getElementById("sonar_pulse_button").style.display = "block";
+
+    document.getElementById("place_minesweeper").style.display = "none";
+    document.getElementById("place_destroyer").style.display = "none";
+    document.getElementById("place_battleship").style.display = "none";
+    document.getElementById("place_submarine").style.display = "none";
+    document.getElementById("is_vertical").style.display = "none";
 
     document.getElementById("status").innerHTML = "<h3>Attack phase</h3>Click on a square on the opponent's board to attack it.<br>The opponent will attack your board as you attack theirs."
 }
-

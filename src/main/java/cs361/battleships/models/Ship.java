@@ -27,6 +27,7 @@ public class Ship {
 		switch(kind) {
 			case "SUBMARINE":
 				size = 5;
+				numHits = 1;
 				break;
 			case "MINESWEEPER":
 				size = 2;
@@ -58,10 +59,8 @@ public class Ship {
 						occupiedSquares.add(new Square(row + i, col));
 					} else {
 						occupiedSquares.add(new Square(row, (char) (col + i)));
-
 					}
 				} else {
-
 					if (isVertical) {
 						occupiedSquares.add(new Square(row + 2, (char) (col + 1)));
 					} else {
@@ -104,7 +103,7 @@ public class Ship {
 		return kind;
 	}
 
-	public Result attack(int x, char y) {
+	public Result attack(int x, char y, boolean laser) {
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
 		if (!square.isPresent()) {
@@ -119,15 +118,21 @@ public class Ship {
 		attackedSquare.hit();
 		var result = new Result(attackedLocation);
 		result.setShip(this);
-		if(getNumHits() > 0 && result.getLocation().getIsCapQuarters()) {
-			result.setResult(AtackStatus.MISS);
-			setNumHits(getNumHits()-1);
-		}
-		if (isSunk()) {
-			result.setResult(AtackStatus.SUNK);
+		if(result.getLocation().getIsCapQuarters() && (getNumHits() > 0)) {
+			if (laser) {
+				result.setResult(AtackStatus.HIT);
+				setNumHits(0);
+			} else {
+				result.setResult(AtackStatus.MISS);
+				setNumHits(getNumHits() - 1);
+			};
 		} else {
-			result.setResult(AtackStatus.HIT);
-		}
+			if (isSunk()) {
+				result.setResult(AtackStatus.SUNK);
+			} else {
+				result.setResult(AtackStatus.HIT);
+			}
+		};
 		return result;
 	}
 

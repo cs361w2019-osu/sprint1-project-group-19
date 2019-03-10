@@ -15,7 +15,7 @@ public class Board {
 	@JsonProperty private List<Square> scans;
 	@JsonProperty private List<Square> scannedSquares;
 	@JsonProperty private int sonarPulses; // -1 means not yet available, 0-2 means the number of sonar pulses left
-
+	@JsonProperty private boolean usingLaser;
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -25,6 +25,7 @@ public class Board {
 		scans = new ArrayList();
 		scannedSquares = new ArrayList();
 		sonarPulses = -1;
+		usingLaser = false;
 	}
 
 	/*
@@ -144,20 +145,23 @@ public class Board {
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
 			var attackResult = new Result(s);
+			attackResult.setResult(AtackStatus.MISS);
 			return attackResult;
 		}
-		var hitShip = shipsAtLocation.get(0);
-		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
+		var hitShips = shipsAtLocation.get(0);
+		var attackResult = hitShips.attack(s.getRow(), s.getColumn(), (numSunken() >= 2));
 		if (attackResult.getResult() == AtackStatus.SUNK) {
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {
 				attackResult.setResult(AtackStatus.SURRENDER);
 			}
+		}
+		if(numSunken() >= 2){
+			usingLaser = true;
 		}
 		return attackResult;
 	}
 
 	public List<Ship> getShips() {
 		return ships;
-
 	}
 }
