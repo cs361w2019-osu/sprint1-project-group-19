@@ -50,4 +50,13 @@ public class ApplicationController {
         */
         return Results.json().render(game);
     }
+
+    public Result move(Context context, MoveGameAction g){
+        Game game = g.getGame();
+        String shipType = g.getShipType();
+        char dir = g.getDir();
+        game.moveShip(shipType, dir);
+
+        return Results.json().render(game);
+    }
 }

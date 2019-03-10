@@ -133,13 +133,13 @@ public class Ship {
 				p.a = -1;
 				break;
 			case 'E':
-				p.b = -1;
+				p.b = 1;
 				break;
 			case 'S':
 				p.a = 1;
 				break;
 			case 'W':
-				p.b = 1;
+				p.b = -1;
 				break;
 		}
 		return p;
@@ -148,8 +148,8 @@ public class Ship {
 	public boolean move(char dir){
 		// step 1: get direction
 		Pair diff = getDiff(dir);
-		int rowDiff = diff.b;
-		int colDiff = diff.a;
+		int rowDiff = diff.a;
+		int colDiff = diff.b;
 
 		// step 2: check
 		for (Square sq : occupiedSquares){

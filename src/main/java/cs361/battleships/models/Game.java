@@ -57,6 +57,7 @@ public class Game {
 
         status = "";
         initSonarPulse();
+        initMoves();
         return true;
     }
 
@@ -88,6 +89,12 @@ public class Game {
         }
     }
 
+    private void initMoves(){
+        if ((opponentsBoard.numSunken() >= 2) && (playersBoard.getMoves() == -1)){
+            playersBoard.setMoves(2);
+        }
+    }
+
     public boolean scan(int x, char y){
         if (x >= 1 && x <= 10 && y >= 'A' && y <= 'J') { // check if coords are on the board
             boolean ret = playersBoard.useSonarPulse(x, y);
@@ -100,4 +107,21 @@ public class Game {
             return false;
         }
     }
+
+    public boolean moveShip(String shipType, char dir){
+        Ship s = playersBoard.findShip(shipType);
+        if (s == null){
+            status = "Cannot find the selected ship";
+            return false;
+        }
+        String ret = playersBoard.moveShip(s, dir);
+        if (ret.isEmpty()){
+            opponentAttack();
+            return true;
+        } else {
+            status = ret;
+            return false;
+        }
+    }
+
 }

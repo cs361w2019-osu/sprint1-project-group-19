@@ -15,6 +15,7 @@ public class Board {
 	@JsonProperty private List<Square> scans;
 	@JsonProperty private List<Square> scannedSquares;
 	@JsonProperty private int sonarPulses; // -1 means not yet available, 0-2 means the number of sonar pulses left
+	@JsonProperty private int moves; // -1 means not yet available, 0-2 means the number of moves left
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -25,6 +26,7 @@ public class Board {
 		scans = new ArrayList();
 		scannedSquares = new ArrayList();
 		sonarPulses = -1;
+		moves = -1;
 	}
 
 	/*
@@ -179,7 +181,20 @@ public class Board {
 		return oppositeDir;
 	}
 
-	public boolean moveShip(Ship s, char dir){
+	// returns an empty string if move is successful, returns a status message otherwise
+	public String moveShip(Ship s, char dir){
+		// check if the player has moves left
+		if (moves == 0){
+			return "You have moved your ships twice";
+		} else if (moves < 0){
+			return "You have to sink at least 2 enemy ships before moving your ships";
+		}
+
+		// check if the ship is sunken
+		if (s.isSunk()){
+			return "The ship you are trying to move is sunken";
+		}
+
 		// create an array of all ships except the one we are trying to move, for overlap checks
 		ArrayList<Ship> allButTarget = new ArrayList<>(); // contains all ships on the board except the one we are trying to move
 		for (Ship cur : ships){
@@ -196,12 +211,34 @@ public class Board {
 					// move the opposite direction (undo move)
 					char oppositeDir = opposite(dir);
 					s.move(oppositeDir);
-					return false;
+					return "The destination space is already occupied by another ship";
 				}
 			}
 		} else { // if move results in the ship being out of the board
-			return false;
+			return "You cannot move the ship out of the board";
 		}
-		return true; // if everything went right
+		// if everything went right
+		moves--;
+		return "";
+	}
+
+	public int getMoves(){
+		return moves;
+	}
+
+	public void setMoves(int m){
+		moves = m;
+	}
+
+	// find a ship on the board of a given type
+	public Ship findShip(String kind){
+		String shipType = kind.toUpperCase();
+
+		for (int x = 0; x < ships.size(); x++){
+			if (ships.get(x).getKind().equals(shipType)){
+				return ships.get(x);
+			}
+		}
+		return null;
 	}
 }
